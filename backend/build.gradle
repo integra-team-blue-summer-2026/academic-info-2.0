@@ -8,6 +8,8 @@ group = 'cloudflight.integra'
 version = '0.0.1-SNAPSHOT'
 description = 'backend'
 
+
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(24)
