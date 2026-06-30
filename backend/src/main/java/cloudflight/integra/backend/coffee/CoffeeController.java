@@ -1,6 +1,6 @@
-package cloudflight.integra.backend.coffeemug;
+package cloudflight.integra.backend.coffee;
 
-import cloudflight.integra.backend.coffeemug.model.CoffeeMugDto;
+import cloudflight.integra.backend.coffee.model.CoffeeDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,34 +9,34 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/coffeemugs")
-public class CoffeeMugController {
-    private final CoffeeMugService service;
-    private final CoffeeMugMapper mapper;
+@RequestMapping("/api/coffees")
+public class CoffeeController {
+    private final CoffeeService service;
+    private final CoffeeMapper mapper;
 
-    public CoffeeMugController(CoffeeMugService service, CoffeeMugMapper mapper) {
+    public CoffeeController(CoffeeService service, CoffeeMapper mapper) {
         this.service = service;
         this.mapper = mapper;
     }
 
     @GetMapping
-    public List<CoffeeMugDto> getAll() {
+    public List<CoffeeDto> getAll() {
         return service.getAll().stream().map(mapper::toDto).toList();
     }
 
     @GetMapping("/{id}")
-    public CoffeeMugDto getById(@PathVariable Long id) {
+    public CoffeeDto getById(@PathVariable Long id) {
         return service.getById(id).map(mapper::toDto)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<CoffeeMugDto> create(@RequestBody CoffeeMugDto dto) {
+    public ResponseEntity<CoffeeDto> create(@RequestBody CoffeeDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(service.create(mapper.toEntity(dto))));
     }
 
     @PutMapping("/{id}")
-    public CoffeeMugDto update(@PathVariable Long id, @RequestBody CoffeeMugDto dto) {
+    public CoffeeDto update(@PathVariable Long id, @RequestBody CoffeeDto dto) {
         return service.update(id, mapper.toEntity(dto)).map(mapper::toDto)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }

@@ -1,16 +1,14 @@
 package cloudflight.integra.backend.coffeemug;
 
+import cloudflight.integra.backend.coffee.CoffeeMapper;
 import cloudflight.integra.backend.coffeemug.model.CoffeeMug;
 import cloudflight.integra.backend.coffeemug.model.CoffeeMugDto;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-public class CoffeeMugMapper {
-    public CoffeeMugDto toDto(CoffeeMug mug) {
-        return new CoffeeMugDto(mug.getId(), mug.getColor(), mug.getCapacityMl(), mug.isClean());
-    }
+@Mapper(componentModel = "spring", uses = CoffeeMapper.class)
+public interface CoffeeMugMapper {
+    CoffeeMugDto toDto(CoffeeMug mug);
 
-    public CoffeeMug toEntity(CoffeeMugDto dto) {
-        return new CoffeeMug(dto.id(), dto.color(), dto.capacityMl(), dto.clean());
-    }
+    // TODO: add @Mapping(target = "coffee", ignore = true) when JPA is introduced
+    CoffeeMug toEntity(CoffeeMugDto dto);
 }

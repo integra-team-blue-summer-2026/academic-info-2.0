@@ -1,16 +1,22 @@
 package cloudflight.integra.backend.coffeemug;
 
+import cloudflight.integra.backend.coffee.CoffeeService;
 import cloudflight.integra.backend.coffeemug.model.CoffeeMug;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CoffeeMugService {
     private final CoffeeMugRepository repository;
+    private final CoffeeService coffeeService;
 
-    public CoffeeMugService(CoffeeMugRepository repository) {
+    public CoffeeMugService(CoffeeMugRepository repository, CoffeeService coffeeService) {
         this.repository = repository;
+        this.coffeeService = coffeeService;
     }
 
     public List<CoffeeMug> getAll() {
@@ -22,22 +28,29 @@ public class CoffeeMugService {
     }
 
     public CoffeeMug create(CoffeeMug mug) {
+        validateCoffeeExists(mug);
         return repository.save(mug);
     }
 
     public Optional<CoffeeMug> update(Long id, CoffeeMug mug) {
-        if (repository.findById(id).isPresent()) {
+        validateCoffeeExists(mug);
+        return repository.findById(id).map(existing -> {
             mug.setId(id);
-            return Optional.of(repository.save(mug));
+            return repository.save(mug);
+        });
+    }
+
+    private void validateCoffeeExists(CoffeeMug mug) {
+        if (mug.getCoffee() != null && coffeeService.getById(mug.getCoffee().getId()).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "Coffee with id %d does not exist".formatted(mug.getCoffee().getId()));
         }
-        return Optional.empty();
     }
 
     public boolean delete(Long id) {
-        if (repository.findById(id).isPresent()) {
+        return repository.findById(id).map(existing -> {
             repository.deleteById(id);
             return true;
-        }
-        return false;
+        }).orElse(false);
     }
 }
