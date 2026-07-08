@@ -2,3 +2,4 @@
 
 Contributors:
 - [Alex Sirbu](https://github.com/AlexandruPaul21)
+- [Aioane Claudia](https://github.com/AioaneClaudia)
