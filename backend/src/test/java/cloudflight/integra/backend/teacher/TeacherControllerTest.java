@@ -18,6 +18,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.verify;
 
 @WebMvcTest(TeacherController.class)
 class TeacherControllerTest {
@@ -200,7 +201,11 @@ class TeacherControllerTest {
     @Test
     void shouldDeleteTeacher() throws Exception {
 
-        mockMvc.perform(delete("/api/teachers/" + UUID.randomUUID()))
+        UUID id = UUID.randomUUID();
+
+        mockMvc.perform(delete("/api/teachers/" + id))
             .andExpect(status().isOk());
+
+        verify(service).delete(id);
     }
 }
