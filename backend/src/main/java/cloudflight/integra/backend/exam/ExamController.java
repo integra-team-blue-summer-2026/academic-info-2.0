@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/exams")
@@ -25,7 +26,7 @@ public class ExamController {
     }
 
     @GetMapping("/{id}")
-    public ExamDto getById(@PathVariable Long id) {
+    public ExamDto getById(@PathVariable UUID id) {
         return service.getById(id).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
@@ -36,13 +37,13 @@ public class ExamController {
     }
 
     @PutMapping("/{id}")
-    public ExamDto update(@PathVariable Long id, @RequestBody ExamDto dto) {
+    public ExamDto update(@PathVariable UUID id, @RequestBody ExamDto dto) {
         return service.update(id, mapper.toEntity(dto)).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable UUID id) {
         service.delete(id);
     }
 }

@@ -1,8 +1,9 @@
 package cloudflight.integra.backend.exam.model;
+import java.util.UUID;
 
 public class Exam {
-    private Long id;
-    private Long courseId;
+    private UUID id;
+    private UUID courseId;
     private String examType;
     private String examDate;
     private String room;
@@ -10,7 +11,7 @@ public class Exam {
     public Exam() {
     }
 
-    public Exam(Long id, Long courseId, String examType, String examDate, String room) {
+    public Exam(UUID id, UUID courseId, String examType, String examDate, String room) {
         this.id = id;
         this.courseId = courseId;
         this.examType = examType;
@@ -18,19 +19,19 @@ public class Exam {
         this.room = room;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Long getCourseId() {
+    public UUID getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(Long courseId) {
+    public void setCourseId(UUID courseId) {
         this.courseId = courseId;
     }
 

@@ -1,4 +1,6 @@
 package cloudflight.integra.backend.exam.model;
 
-public record ExamDto (Long id, Long courseId, String examType, String examDate, String room) {
+import java.util.UUID;
+
+public record ExamDto (UUID id, UUID courseId, String examType, String examDate, String room) {
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ExamService {
@@ -18,7 +19,7 @@ public class ExamService {
         return repository.findAll();
     }
 
-    public Optional<Exam> getById(Long id) {
+    public Optional<Exam> getById(UUID id) {
         return repository.findById(id);
     }
 
@@ -26,14 +27,14 @@ public class ExamService {
         return repository.save(exam);
     }
 
-    public Optional<Exam> update(Long id, Exam exam) {
+    public Optional<Exam> update(UUID id, Exam exam) {
         return repository.findById(id).map(existing -> {
             exam.setId(id);
             return repository.save(exam);
         });
     }
 
-    public boolean delete(Long id) {
+    public boolean delete(UUID id) {
         return repository.findById(id).map(existing -> {
             repository.deleteById(id);
             return true;
