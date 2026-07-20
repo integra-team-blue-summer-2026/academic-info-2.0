@@ -203,8 +203,10 @@ class TeacherControllerTest {
 
         UUID id = UUID.randomUUID();
 
+        when(service.delete(id)).thenReturn(true);
+
         mockMvc.perform(delete("/api/teachers/" + id))
-            .andExpect(status().isOk());
+            .andExpect(status().isNoContent());
 
         verify(service).delete(id);
     }
