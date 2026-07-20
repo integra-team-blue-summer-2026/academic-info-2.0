@@ -210,4 +210,17 @@ class TeacherControllerTest {
 
         verify(service).delete(id);
     }
+
+    @Test
+    void shouldReturn404WhenDeletingUnknownTeacher() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        when(service.delete(id)).thenReturn(false);
+
+        mockMvc.perform(delete("/api/teachers/" + id))
+            .andExpect(status().isNotFound());
+
+        verify(service).delete(id);
+    }
 }
