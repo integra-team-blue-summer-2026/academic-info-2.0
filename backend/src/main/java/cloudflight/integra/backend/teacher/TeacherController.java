@@ -34,12 +34,28 @@ public class TeacherController {
 
     @PostMapping
     public ResponseEntity<TeacherDto> create(@RequestBody TeacherDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(service.create(mapper.toEntity(dto))));
+        if (dto == null) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Request body must not be null"
+            );
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(mapper.toDto(service.create(mapper.toEntity(dto))));
     }
 
     @PutMapping("/{id}")
     public TeacherDto update(@PathVariable UUID id, @RequestBody TeacherDto dto) {
-        return service.update(id, mapper.toEntity(dto)).map(mapper::toDto)
+        if (dto == null) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Request body must not be null"
+            );
+        }
+
+        return service.update(id, mapper.toEntity(dto))
+            .map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 

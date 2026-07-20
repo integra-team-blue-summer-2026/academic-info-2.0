@@ -7,7 +7,7 @@ import java.util.*;
 
 @Repository
 public class TeacherRepository {
-    private final Map<UUID, Teacher> teachers = new HashMap<>();
+    private final Map<UUID, Teacher> teachers = new LinkedHashMap<>();
 
     public List<Teacher> findAll() {
         return new ArrayList<>(teachers.values());
