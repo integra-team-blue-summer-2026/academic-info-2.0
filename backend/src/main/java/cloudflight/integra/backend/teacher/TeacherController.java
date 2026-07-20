@@ -44,7 +44,11 @@ public class TeacherController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
-        service.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        if (!service.delete(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.noContent().build();
     }
 }

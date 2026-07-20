@@ -29,7 +29,7 @@ public class TeacherService {
     }
 
     public Optional<Teacher> update(UUID id, Teacher teacher) {
-        return repository.findById(id).map(existing -> {
+        return repository.findById(id).map(ignored -> {
             teacher.setId(id);
             return repository.save(teacher);
         });
