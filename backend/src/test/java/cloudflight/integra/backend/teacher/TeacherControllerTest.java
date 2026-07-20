@@ -223,4 +223,83 @@ class TeacherControllerTest {
 
         verify(service).delete(id);
     }
+
+    @Test
+    void shouldIgnoreClientProvidedIdWhenCreatingTeacher() throws Exception {
+
+        UUID clientProvidedId = UUID.randomUUID();
+        UUID generatedId = UUID.randomUUID();
+
+        Teacher teacherWithoutClientId = new Teacher(
+            null,
+            "Ana",
+            "Popescu",
+            "Assoc. Prof.",
+            "Computer Science"
+        );
+
+        Teacher savedTeacher = new Teacher(
+            generatedId,
+            "Ana",
+            "Popescu",
+            "Assoc. Prof.",
+            "Computer Science"
+        );
+
+        TeacherDto responseDto = new TeacherDto(
+            generatedId,
+            "Ana",
+            "Popescu",
+            "Assoc. Prof.",
+            "Computer Science"
+        );
+
+        when(mapper.toEntity(any())).thenReturn(teacherWithoutClientId);
+        when(service.create(teacherWithoutClientId)).thenReturn(savedTeacher);
+        when(mapper.toDto(savedTeacher)).thenReturn(responseDto);
+
+        mockMvc.perform(post("/api/teachers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "id":"%s",
+                      "firstName":"Ana",
+                      "lastName":"Popescu",
+                      "title":"Assoc. Prof.",
+                      "department":"Computer Science"
+                    }
+                    """.formatted(clientProvidedId)))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id").value(generatedId.toString()));
+
+        verify(mapper).toEntity(
+            new TeacherDto(
+                null,
+                "Ana",
+                "Popescu",
+                "Assoc. Prof.",
+                "Computer Science"
+            )
+        );
+    }
+
+    @Test
+    void shouldReturn400WhenCreateBodyIsNull() throws Exception {
+
+        mockMvc.perform(post("/api/teachers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("null"))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturn400WhenUpdateBodyIsNull() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        mockMvc.perform(put("/api/teachers/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("null"))
+            .andExpect(status().isBadRequest());
+    }
 }

@@ -41,8 +41,16 @@ public class TeacherController {
             );
         }
 
+        TeacherDto dtoWithoutId = new TeacherDto(
+            null,
+            dto.firstName(),
+            dto.lastName(),
+            dto.title(),
+            dto.department()
+        );
+
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(mapper.toDto(service.create(mapper.toEntity(dto))));
+            .body(mapper.toDto(service.create(mapper.toEntity(dtoWithoutId))));
     }
 
     @PutMapping("/{id}")
