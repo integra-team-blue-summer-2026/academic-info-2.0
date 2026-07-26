@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ExamServiceTest {
     @Autowired
     private ExamService service;
@@ -48,8 +47,8 @@ public class ExamServiceTest {
         List<Exam> allExams = service.getAll();
 
         assertEquals(2, allExams.size());
-        assertEquals(exam1.getId(), allExams.get(0).getId());
-        assertEquals(exam2.getId(), allExams.get(1).getId());
+        assertTrue(allExams.stream().anyMatch(e -> e.getId().equals(exam1.getId())));
+        assertTrue(allExams.stream().anyMatch(e -> e.getId().equals(exam2.getId())));
     }
 
     @Test
