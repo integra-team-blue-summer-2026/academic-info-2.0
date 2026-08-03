@@ -1,4 +1,4 @@
-rootProject.name = 'student-skeleton-project'
+rootProject.name = 'academic-info-2.0'
 
 include 'backend'
 include 'frontend'
