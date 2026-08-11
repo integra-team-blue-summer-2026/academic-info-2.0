@@ -1,5 +1,6 @@
 package cloudflight.integra.backend.teacher;
 
+import cloudflight.integra.backend.teacher.model.GeneratePasswordDto;
 import cloudflight.integra.backend.teacher.model.TeacherDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,4 +76,10 @@ public class TeacherController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{id}/password/regenerate")
+    public GeneratePasswordDto regeneratePassword(@PathVariable UUID id){
+        return service.regeneratePassword(id).map(GeneratePasswordDto::new).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
 }

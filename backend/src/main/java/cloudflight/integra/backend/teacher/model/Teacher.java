@@ -8,16 +8,22 @@ public class Teacher {
     private String lastName;
     private String title;
     private String department;
+    private String passwordHash;
 
     public Teacher() {
     }
 
     public Teacher(UUID id, String firstName, String lastName, String title, String department) {
+        this(id, firstName, lastName, title, department, null);
+    }
+
+    public Teacher(UUID id, String firstName, String lastName, String title, String department, String passwordHash) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.title = title;
         this.department = department;
+        this.passwordHash = passwordHash;
     }
 
     public UUID getId() {
@@ -58,5 +64,13 @@ public class Teacher {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 }
