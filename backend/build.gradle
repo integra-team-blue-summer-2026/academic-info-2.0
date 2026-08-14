@@ -56,8 +56,8 @@ openApiGenerate {
 
     outputDir.set("$projectDir/../frontend/src/app/core/api")
 
-    apiPackage.set("services")
-    modelPackage.set("models")
+    apiPackage.set("api")
+    modelPackage.set("model")
 }
 
 tasks.matching { it.name == 'forkedSpringBootRun' }.configureEach {

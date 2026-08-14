@@ -54,7 +54,7 @@ export class Teachers implements OnInit {
     this.loading.set(true);
 
     this.teacherService
-      .getAll(undefined, undefined, { httpHeaderAccept: 'application/json' as '*/*' })
+      .getAll()
       .subscribe({
       next: (teachers) => {
         this.teachers.set(teachers);
@@ -168,7 +168,7 @@ export class Teachers implements OnInit {
       rejectButtonProps: { label: 'Cancel', severity: 'secondary', outlined: true },
       accept: () => {
         this.teacherService
-          .regeneratePassword(id, undefined, undefined, { httpHeaderAccept: 'application/json' as '*/*' })
+          .regeneratePassword(id)
           .subscribe({
           next: (generated) => {
             this.generatedPassword.set(generated.password ?? '');
