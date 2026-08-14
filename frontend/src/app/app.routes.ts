@@ -5,5 +5,9 @@ export const routes: Routes = [
   {
     path: '',
     component: Home,
+  },
+  {
+    path: 'teachers',
+    loadComponent: () => import('./features/teachers/teachers').then(m => m.Teachers),
   }
 ];

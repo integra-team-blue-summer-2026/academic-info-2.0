@@ -11,6 +11,5 @@ public interface TeacherMapper {
     TeacherDto toDto(Teacher teacher);
 
     @Mapping(target = "passwordHash", ignore = true)
-
     Teacher toEntity(TeacherDto dto);
 }
