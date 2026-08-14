@@ -1,0 +1,26 @@
+.overview-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.overview-container h1 {
+  margin-bottom: 1.5rem;
+}
+
+.summary-card {
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.summary-card p {
+  margin: 0;
+}
+
+.overview-table {
+  width: 100%;
+}
+
+.empty-message {
+  text-align: center;
+}

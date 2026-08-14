@@ -1,0 +1,43 @@
+<section class="overview-container">
+
+  <h1>Teacher Course Overview</h1>
+
+  <p-card header="Course Summary" class="summary-card">
+    <p>Total courses: <strong>{{ totalCourses }}</strong></p>
+  </p-card>
+
+  <p-table
+    [value]="courses"
+    class="overview-table">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nr crt</th>
+        <th>Course Name</th>
+        <th>Credits</th>
+        <th>Syllabus</th>
+        <th>Description</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-course let-rowIndex="rowIndex">
+      <tr>
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ course.courseName }}</td>
+        <td>{{ course.credits }}</td>
+        <td>{{ course.syllabus }}</td>
+        <td>{{ course.description }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="empty-message">
+          No courses available.
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+</section>
