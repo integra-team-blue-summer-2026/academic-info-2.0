@@ -11,6 +11,8 @@ export const routes: Routes = [
   {
     path: 'teachers',
     loadComponent: () => import('./features/teachers/teachers').then(m => m.Teachers),
+  },
+  {
     path: 'courses',
     component: CourseList,
   },
