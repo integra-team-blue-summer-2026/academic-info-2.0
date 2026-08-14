@@ -1,0 +1,136 @@
+<p-toast />
+<p-confirmdialog />
+
+<div class="teachers-toolbar">
+  <h2>Teachers</h2>
+  <p-button label="Add teacher" icon="pi pi-plus" (onClick)="openCreateDialog()" />
+</div>
+
+<p-table
+  #dt
+  [value]="teachers()"
+  [loading]="loading()"
+  [globalFilterFields]="globalFilterFields"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 50]"
+  dataKey="id"
+>
+  <ng-template #caption>
+    <input
+      pInputText
+      type="text"
+      class="search-input"
+      placeholder="Search all columns"
+      (input)="applyGlobalFilter(dt, $event)"
+    />
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th pSortableColumn="firstName">First name <p-sortIcon field="firstName" /></th>
+      <th pSortableColumn="lastName">Last name <p-sortIcon field="lastName" /></th>
+      <th pSortableColumn="title">Title <p-sortIcon field="title" /></th>
+      <th pSortableColumn="department">Department <p-sortIcon field="department" /></th>
+      <th class="actions-column">Actions</th>
+    </tr>
+    <tr>
+      <th><p-columnFilter type="text" field="firstName" [showMenu]="false" /></th>
+      <th><p-columnFilter type="text" field="lastName" [showMenu]="false" /></th>
+      <th><p-columnFilter type="text" field="title" [showMenu]="false" /></th>
+      <th><p-columnFilter type="text" field="department" [showMenu]="false" /></th>
+      <th></th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-teacher>
+    <tr>
+      <td>{{ teacher.firstName }}</td>
+      <td>{{ teacher.lastName }}</td>
+      <td>{{ teacher.title }}</td>
+      <td>{{ teacher.department }}</td>
+      <td class="actions-column">
+        <div class="row-actions">
+          <p-button
+            icon="pi pi-pencil"
+            [text]="true"
+            ariaLabel="Edit teacher"
+            (onClick)="openEditDialog(teacher)"
+          />
+          <p-button
+            icon="pi pi-key"
+            [text]="true"
+            ariaLabel="Regenerate password"
+            (onClick)="regeneratePassword(teacher)"
+          />
+          <p-button
+            icon="pi pi-trash"
+            [text]="true"
+            severity="danger"
+            ariaLabel="Delete teacher"
+            (onClick)="confirmDelete(teacher)"
+          />
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="5">No teachers found.</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog
+  [header]="formDialogHeader()"
+  [visible]="formDialogVisible()"
+  (visibleChange)="onFormDialogVisibleChange($event)"
+  [modal]="true"
+  [style]="{ width: '30rem' }"
+>
+  <div class="teacher-form" [formGroup]="form">
+    <label for="firstName">First name</label>
+    <input pInputText id="firstName" formControlName="firstName" />
+
+    <label for="lastName">Last name</label>
+    <input pInputText id="lastName" formControlName="lastName" />
+
+    <label for="title">Title</label>
+    <input pInputText id="title" formControlName="title" />
+
+    <label for="department">Department</label>
+    <input pInputText id="department" formControlName="department" />
+  </div>
+
+  <ng-template #footer>
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      [outlined]="true"
+      (onClick)="closeFormDialog()"
+    />
+    <p-button label="Save" [loading]="saving()" (onClick)="save()" />
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  header="Generated password"
+  [visible]="passwordDialogVisible()"
+  (visibleChange)="onPasswordDialogVisibleChange($event)"
+  [modal]="true"
+  [style]="{ width: '28rem' }"
+>
+  <p>Copy this password. It will not be shown again.</p>
+  <p class="generated-password">{{ generatedPassword() }}</p>
+
+  <ng-template #footer>
+    <p-button
+      label="Copy"
+      icon="pi pi-copy"
+      [outlined]="true"
+      (onClick)="copyPassword()"
+    />
+    <p-button label="Close" (onClick)="closePasswordDialog()" />
+  </ng-template>
+</p-dialog>

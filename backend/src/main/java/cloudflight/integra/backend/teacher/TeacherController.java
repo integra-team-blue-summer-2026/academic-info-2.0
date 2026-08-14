@@ -1,7 +1,9 @@
 package cloudflight.integra.backend.teacher;
 
+import cloudflight.integra.backend.teacher.model.GeneratePasswordDto;
 import cloudflight.integra.backend.teacher.model.TeacherDto;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,7 +23,7 @@ public class TeacherController {
         this.mapper = mapper;
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TeacherDto> getAll() {
         return service.getAll().stream().map(mapper::toDto).toList();
     }
@@ -75,4 +77,10 @@ public class TeacherController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{id}/password/regenerate")
+    public GeneratePasswordDto regeneratePassword(@PathVariable UUID id){
+        return service.regeneratePassword(id).map(GeneratePasswordDto::new).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
 }
