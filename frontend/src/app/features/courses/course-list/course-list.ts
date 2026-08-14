@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { CourseDto } from '../../../core/api/models/courseDto';
 import { CourseControllerService } from '../../../core/api/services/courseController.service';
@@ -32,11 +33,17 @@ export class CourseList implements OnInit {
 
   searchTerm = '';
 
+  teacherSearchTerm = '';
+
   showCourseForm = false;
 
   selectedCourse: CourseDto | null = null;
 
-  constructor(private courseService: CourseControllerService) {}
+  constructor(
+    private courseService: CourseControllerService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadCourses();
@@ -47,14 +54,13 @@ export class CourseList implements OnInit {
       next: (courses) => {
         this.courses = courses;
         this.filteredCourses = courses;
+        this.cdr.markForCheck();
       },
       error: (error) => {
         console.error('Failed to load courses', error);
       }
     });
   }
-
-  teacherSearchTerm = '';
 
   filterCourses(): void {
     const term = this.searchTerm.trim().toLowerCase();
@@ -73,6 +79,14 @@ export class CourseList implements OnInit {
 
       return matchesCourse && matchesTeacher;
     });
+  }
+
+  viewCourseDetails(course: CourseDto): void {
+    if (!course.id) {
+      return;
+    }
+
+    this.router.navigate(['/courses', course.id]);
   }
 
   openAddCourse(): void {
