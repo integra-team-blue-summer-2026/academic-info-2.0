@@ -2,6 +2,7 @@ package cloudflight.integra.backend.teacher;
 
 import cloudflight.integra.backend.teacher.model.GeneratePasswordDto;
 import cloudflight.integra.backend.teacher.model.TeacherDto;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +24,20 @@ public class TeacherController {
         this.mapper = mapper;
     }
 
+    @Operation(operationId = "getAllTeachers")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TeacherDto> getAll() {
         return service.getAll().stream().map(mapper::toDto).toList();
     }
 
+    @Operation(operationId = "getTeacherById")
     @GetMapping("/{id}")
     public TeacherDto getById(@PathVariable UUID id) {
         return service.getById(id).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @Operation(operationId = "addTeacher")
     @PostMapping
     public ResponseEntity<TeacherDto> create(@RequestBody TeacherDto dto) {
         if (dto == null) {
@@ -55,6 +59,7 @@ public class TeacherController {
             .body(mapper.toDto(service.create(mapper.toEntity(dtoWithoutId))));
     }
 
+    @Operation(operationId = "updateTeacher")
     @PutMapping("/{id}")
     public TeacherDto update(@PathVariable UUID id, @RequestBody TeacherDto dto) {
         if (dto == null) {
@@ -69,6 +74,7 @@ public class TeacherController {
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @Operation(operationId = "deleteTeacher")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!service.delete(id)) {
@@ -78,6 +84,7 @@ public class TeacherController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(operationId = "regenerateTeacherPassword")
     @PostMapping("/{id}/password/regenerate")
     public GeneratePasswordDto regeneratePassword(@PathVariable UUID id){
         return service.regeneratePassword(id).map(GeneratePasswordDto::new).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

@@ -54,7 +54,7 @@ export class Teachers implements OnInit {
     this.loading.set(true);
 
     this.teacherService
-      .getAll()
+      .getAllTeachers()
       .subscribe({
       next: (teachers) => {
         this.teachers.set(teachers);
@@ -118,8 +118,8 @@ export class Teachers implements OnInit {
     this.saving.set(true);
 
     const request$ = edited?.id
-      ? this.teacherService.update(edited.id, { ...edited, ...formValue })
-      : this.teacherService.create(formValue);
+      ? this.teacherService.updateTeacher(edited.id, { ...edited, ...formValue })
+      : this.teacherService.addTeacher(formValue);
 
     request$.subscribe({
       next: () => {
@@ -168,7 +168,7 @@ export class Teachers implements OnInit {
       rejectButtonProps: { label: 'Cancel', severity: 'secondary', outlined: true },
       accept: () => {
         this.teacherService
-          .regeneratePassword(id)
+          .regenerateTeacherPassword(id)
           .subscribe({
           next: (generated) => {
             this.generatedPassword.set(generated.password ?? '');
@@ -202,7 +202,7 @@ export class Teachers implements OnInit {
       return;
     }
 
-    this.teacherService._delete(teacher.id).subscribe({
+    this.teacherService.deleteTeacher(teacher.id).subscribe({
       next: () => {
         this.loadTeachers();
         this.messageService.add({ severity: 'success', summary: 'Teacher deleted' });

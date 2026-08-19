@@ -86,14 +86,14 @@ export class CourseForm implements OnChanges {
     const course: CourseDto = this.form.getRawValue();
 
     if (this.course?.id) {
-      this.courseService.update4(this.course.id, course).subscribe({
+      this.courseService.updateCourse(this.course.id, course).subscribe({
         next: () => this.saved.emit(),
         error: (error) => {
           console.error('Failed to update course', error);
         }
       });
     } else {
-      this.courseService.create4(course).subscribe({
+      this.courseService.createCourse(course).subscribe({
         next: () => this.saved.emit(),
         error: (error) => {
           console.error('Failed to create course', error);

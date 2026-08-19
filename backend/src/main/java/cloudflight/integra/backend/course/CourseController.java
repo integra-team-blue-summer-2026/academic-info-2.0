@@ -1,6 +1,7 @@
 package cloudflight.integra.backend.course;
 
 import cloudflight.integra.backend.course.model.CourseDto;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,6 +29,7 @@ public class CourseController {
         this.mapper = mapper;
     }
 
+    @Operation(operationId = "getAllCourses")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses({
         @ApiResponse(
@@ -48,6 +50,7 @@ public class CourseController {
             .toList();
     }
 
+    @Operation(operationId = "getCourseById")
     @GetMapping(
         value = "/{id}",
         produces = MediaType.APPLICATION_JSON_VALUE
@@ -74,6 +77,7 @@ public class CourseController {
             );
     }
 
+    @Operation(operationId = "createCourse")
     @PostMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
@@ -100,6 +104,7 @@ public class CourseController {
             .body(created);
     }
 
+    @Operation(operationId = "updateCourse")
     @PutMapping(
         value = "/{id}",
         consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -130,6 +135,7 @@ public class CourseController {
             );
     }
 
+    @Operation(operationId = "deleteCourse")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses({

@@ -50,13 +50,13 @@ export class CourseList implements OnInit {
   }
 
   loadCourses(): void {
-    this.courseService.getAll4().subscribe({
-      next: (courses) => {
+    this.courseService.getAllCourses().subscribe({
+      next: (courses: CourseDto[]) => {
         this.courses = courses;
         this.filteredCourses = courses;
         this.cdr.markForCheck();
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Failed to load courses', error);
       }
     });
@@ -112,11 +112,11 @@ export class CourseList implements OnInit {
       return;
     }
 
-    this.courseService.delete4(course.id).subscribe({
+    this.courseService.deleteCourse(course.id).subscribe({
       next: () => {
         this.loadCourses();
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Failed to delete course', error);
       }
     });
