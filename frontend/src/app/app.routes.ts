@@ -10,12 +10,21 @@ export const routes: Routes = [
   },
   {
     path: 'teachers',
-    loadComponent: () => import('./features/teachers/teachers').then(m => m.Teachers),
+    loadComponent: () =>
+      import('./features/teachers/teachers').then(m => m.Teachers),
+  },
+  {
     path: 'courses',
     component: CourseList,
   },
   {
+    path: 'courses/teacher/:id',
+    loadComponent: () =>
+      import('./features/courses/course-details-teacher/course-details-teacher')
+        .then(m => m.CourseDetailsTeacher),
+  },
+  {
     path: 'courses/:id',
     component: CourseDetails,
-  }
+  },
 ];
