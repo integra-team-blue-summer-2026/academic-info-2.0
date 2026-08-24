@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './features/home/home';
 import { CourseList } from './features/courses/course-list/course-list';
 import { CourseDetails } from './features/courses/course-details/course-details';
+import { FinalGradesComponent } from './features/final-grades/final-grades';
 
 export const routes: Routes = [
   {
@@ -19,5 +20,9 @@ export const routes: Routes = [
   {
     path: 'courses/:id',
     component: CourseDetails,
+  },
+  {
+    path: 'final-grades',
+    component: FinalGradesComponent
   }
 ];

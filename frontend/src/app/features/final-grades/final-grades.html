@@ -1,0 +1,58 @@
+<div class="grades-container">
+  <div class="header-toolbar">
+    <h2 class="title">My Grades</h2>
+
+    <p-buttonGroup class="semester-buttons">
+      @for (opt of semesterOptions(); track opt.value) {
+        <p-button
+          [label]="opt.label"
+          [severity]="selectedSemester() === opt.value ? 'primary' : 'secondary'"
+          [outlined]="selectedSemester() !== opt.value"
+          (onClick)="selectSemester(opt.value)">
+        </p-button>
+      }
+    </p-buttonGroup>
+  </div>
+
+  <div class="average-badge">
+    <span>Semester average: </span>
+    <p-tag class="avg-tag"
+           [value]="semesterAverage()"
+           [severity]="semesterAverage() === '-' ? 'info' : (+semesterAverage() < 5 ? 'danger' : 'success')">
+    </p-tag>
+  </div>
+
+  <p-table class="grades-table" [loading]="loading()" [value]="filteredGrades()">
+    <ng-template pTemplate="header">
+      <tr>
+      <tr>
+        <th class="col-course">Course</th>
+        <th class="col-an">Ac. Year</th>
+        <th class="col-credits">Credits</th>
+        <th class="col-date">Completion date</th>
+        <th class="col-grade">Grade</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-grade>
+      <tr>
+        <td class="course-name"><span>{{ grade.courseName }}</span></td>
+        <td class="course-completion-date">
+          <span>{{ ((grade.completionDate.slice(0, 4) - 0) - 1) + "/" + grade.completionDate.substring(0, 4) }}</span>
+        </td>
+        <td class="credits-text"><span>{{ grade.credits }}</span></td>
+        <td  class="course-completion-date">{{ grade.completionDate }}</td>
+        <td class="course-grade">
+          <p-tag class="grade-tag"
+                 [value]="grade.provisional ? grade.grade + ' (Provisional)' : grade.grade + ' (Final)'"
+                 [severity]="grade.grade < 5 ? (grade.provisional ? 'warn' : 'danger') : (grade.provisional ? 'info' : 'success')">
+          </p-tag>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="empty-message">Nu există note disponibile.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

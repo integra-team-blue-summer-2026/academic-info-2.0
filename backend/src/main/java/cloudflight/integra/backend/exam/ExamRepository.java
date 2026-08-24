@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @Repository
 public class ExamRepository {
     private final Map<UUID, Exam> exams = new HashMap<>();
-    private final UUID idGen = UUID.randomUUID();
 
     public List<Exam> findAll() {
         return new ArrayList<>(exams.values());
@@ -23,7 +22,7 @@ public class ExamRepository {
 
     public Exam save(Exam exam) {
         if (exam.getId() == null) {
-            exam.setId(idGen);
+            exam.setId(UUID.randomUUID());
         }
         exams.put(exam.getId(), exam);
         return exam;
