@@ -8,8 +8,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table, TableModule } from 'primeng/table';
 import { Toast } from 'primeng/toast';
 
-import { TeacherControllerService } from '../../core/api/services/teacherController.service';
-import { TeacherDto } from '../../core/api/models/teacherDto';
+import { TeacherControllerService } from '../../core/api/api/teacherController.service';
+import { TeacherDto } from '../../core/api/model/teacherDto';
 
 
 @Component({

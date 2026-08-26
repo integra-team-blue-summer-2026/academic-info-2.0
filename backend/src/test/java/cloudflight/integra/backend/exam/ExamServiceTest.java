@@ -1,5 +1,6 @@
 package cloudflight.integra.backend.exam;
 import cloudflight.integra.backend.exam.model.Exam;
+import cloudflight.integra.backend.exam.model.ExamType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,14 +24,14 @@ public class ExamServiceTest {
         Exam exam = new Exam();
         UUID examId = UUID.randomUUID();
         exam.setId(examId);
-        exam.setExamType("Partial");
+        exam.setExamType(ExamType.PARTIAL);
         exam.setRoom("C310");
 
         service.create(exam);
 
         Optional<Exam> found = service.getById(examId);
         assertTrue(found.isPresent());
-        assertEquals("Partial", found.get().getExamType());
+        assertEquals(ExamType.PARTIAL, found.get().getExamType());
         assertEquals("C310", found.get().getRoom());
     }
 
