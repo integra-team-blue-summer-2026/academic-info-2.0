@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @Repository
 public class ExamRepository {
     private final Map<UUID, Exam> exams = new HashMap<>();
-    private final UUID idGen = UUID.randomUUID();
 
     public List<Exam> findAll() {
         return new ArrayList<>(exams.values());
@@ -23,7 +22,7 @@ public class ExamRepository {
 
     public Exam save(Exam exam) {
         if (exam.getId() == null) {
-            exam.setId(idGen);
+            exam.setId(UUID.randomUUID());
         }
         exams.put(exam.getId(), exam);
         return exam;
@@ -31,5 +30,15 @@ public class ExamRepository {
 
     public void deleteById(UUID id) {
         exams.remove(id);
+    }
+
+    public List<Exam> findByGroup(String group) {
+        return exams.values().stream()
+            .filter(e -> group.equals(e.getGroup())).toList();
+    }
+
+    public List<Exam> findByRoom(String room) {
+        return exams.values().stream()
+            .filter(e -> room.equals(e.getRoom())).toList();
     }
 }

@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 
 import { Teachers } from './teachers';
-import { TeacherControllerService } from '../../core/api/services/teacherController.service';
+import { TeacherControllerService } from '../../core/api/api/teacherController.service';
 
 describe('Teachers', () => {
   let component: Teachers;
