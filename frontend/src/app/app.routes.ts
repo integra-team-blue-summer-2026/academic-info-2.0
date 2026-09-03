@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { Home } from './features/home/home';
 import { CourseList } from './features/courses/course-list/course-list';
 import { CourseDetails } from './features/courses/course-details/course-details';
-import { FinalGradesComponent } from './features/final-grades/final-grades';
+import { StudentFinalGradesComponent } from './features/student-final-grades/student-final-grades';
+import {TeacherFinalGrades} from './features/teacher-final-grades/teacher-final-grades';
 
 export const routes: Routes = [
   {
@@ -22,7 +23,11 @@ export const routes: Routes = [
     component: CourseDetails,
   },
   {
+    path: 'my-grades',
+    component: StudentFinalGradesComponent
+  },
+  {
     path: 'final-grades',
-    component: FinalGradesComponent
+    component: TeacherFinalGrades
   }
 ];

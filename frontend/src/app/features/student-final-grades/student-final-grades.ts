@@ -21,12 +21,12 @@ import { FinalGradeControllerService } from '../../core/api/services/finalGradeC
     ButtonGroupModule,
     SharedModule
   ],
-  templateUrl: './final-grades.html',
-  styleUrls: ['./final-grades.css']
+  templateUrl: './student-final-grades.html',
+  styleUrls: ['./student-final-grades.css']
 })
-export class FinalGradesComponent implements OnInit {
+export class StudentFinalGradesComponent implements OnInit {
 
-  studentId: string = '11111111-1111-1111-1111-111111111111';
+  studentId: string = '30000000-0000-0000-0000-000000000002';
 
   allGrades = signal<StudentFinalGradeDto[]>([]);
   loading = signal<boolean>(false);
