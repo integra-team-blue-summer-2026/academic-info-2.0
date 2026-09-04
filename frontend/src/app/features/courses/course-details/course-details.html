@@ -1,0 +1,74 @@
+<div class="course-details-container" *ngIf="course">
+
+  <div class="header">
+    <p-button
+      label="Back to courses"
+      icon="pi pi-arrow-left"
+      severity="secondary"
+      (onClick)="goBack()">
+    </p-button>
+  </div>
+
+  <p-card [header]="course.courseName">
+
+    <div class="course-info">
+      <div>
+        <strong>Teacher ID:</strong>
+        <span>{{ course.teacherId }}</span>
+      </div>
+
+      <div>
+        <strong>Credits:</strong>
+        <p-tag [value]="course.credits + ' credits'"></p-tag>
+      </div>
+
+      <div>
+        <strong>Syllabus:</strong>
+        <span>{{ course.syllabus }}</span>
+      </div>
+
+      <div>
+        <strong>Description:</strong>
+        <span>{{ course.description }}</span>
+      </div>
+    </div>
+
+  </p-card>
+
+  <div class="exams-section">
+    <h2>Scheduled Exams</h2>
+
+    <p-table
+      [value]="exams"
+      [tableStyle]="{ 'min-width': '50rem' }">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Exam Type</th>
+          <th>Date</th>
+          <th>Room</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-exam>
+        <tr>
+          <td>
+            <p-tag [value]="exam.examType"></p-tag>
+          </td>
+          <td>{{ exam.examDate }}</td>
+          <td>{{ exam.room }}</td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="3">
+            No exams scheduled for this course.
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+  </div>
+
+</div>

@@ -188,7 +188,7 @@ class CourseControllerTest {
         when(service.delete(id)).thenReturn(true);
 
         mockMvc.perform(delete("/api/courses/{id}", id))
-            .andExpect(status().isOk());
+            .andExpect(status().isNoContent());
 
         verify(service).delete(id);
     }

@@ -1,0 +1,142 @@
+<section class="courses-container">
+
+  <!-- Search section -->
+  <div class="search-section">
+
+    <input
+      pInputText
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="filterCourses()"
+      placeholder="Search courses..."
+      aria-label="Search courses"
+      class="course-search"
+    />
+
+    <input
+      pInputText
+      type="text"
+      [(ngModel)]="teacherSearchTerm"
+      (input)="filterCourses()"
+      placeholder="Search by teacher..."
+      aria-label="Search by teacher"
+      class="course-search"
+    />
+
+    <p-button
+      label="Add Course"
+      icon="pi pi-plus"
+      (onClick)="openAddCourse()"
+      class="add-button course-add-button">
+    </p-button>
+
+  </div>
+
+
+  <!-- Courses table -->
+  <div class="course-table-wrapper">
+
+    <p-table
+      [value]="filteredCourses"
+      class="course-table">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nr crt</th>
+          <th>Course Name</th>
+          <th>Teacher ID</th>
+          <th>Credits</th>
+          <th>Syllabus</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+
+
+      <ng-template pTemplate="body" let-course>
+        <tr>
+
+          <td class="number-cell">
+            {{ filteredCourses.indexOf(course) + 1 }}
+          </td>
+
+          <td>
+            {{ course.courseName }}
+          </td>
+
+          <td class="teacher-id">
+            {{ course.teacherId }}
+          </td>
+
+          <td class="credits-cell">
+            {{ course.credits }}
+          </td>
+
+          <td>
+            {{ course.syllabus }}
+          </td>
+
+          <td>
+            {{ course.description }}
+          </td>
+
+          <td class="actions-cell">
+
+            <p-button
+              icon="pi pi-eye"
+              label="View details"
+              severity="secondary"
+              (onClick)="viewCourseDetails(course)">
+            </p-button>
+
+            <p-button
+              icon="pi pi-pencil"
+              label="Edit"
+              severity="secondary"
+              (onClick)="openEditCourse(course)">
+            </p-button>
+
+            <p-button
+              icon="pi pi-trash"
+              label="Delete"
+              severity="secondary"
+              class="course-delete-button"
+              (onClick)="deleteCourse(course)">
+            </p-button>
+
+          </td>
+
+        </tr>
+      </ng-template>
+
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7" class="empty-message">
+            No courses found.
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+
+  </div>
+
+</section>
+
+
+<!-- Add/Edit Course dialog -->
+<p-dialog
+  [(visible)]="showCourseForm"
+  [modal]="true"
+  [style]="{ width: '600px' }"
+  [header]="selectedCourse ? 'Edit Course' : 'Add Course'"
+  (onHide)="closeCourseForm()">
+
+  <app-course-form
+    [course]="selectedCourse"
+    (saved)="onCourseSaved()"
+    (cancelled)="closeCourseForm()">
+  </app-course-form>
+
+</p-dialog>

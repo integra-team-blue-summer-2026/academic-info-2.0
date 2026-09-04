@@ -1,0 +1,102 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="course-form">
+
+  <div class="form-field">
+    <label for="courseName">Course Name</label>
+
+    <input
+      pInputText
+      id="courseName"
+      formControlName="courseName"
+      placeholder="Course name"
+    />
+
+    @if (
+    form.controls.courseName.invalid &&
+    form.controls.courseName.touched
+    ) {
+    <small class="error">
+      Course name is required.
+    </small>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="teacherId">Teacher ID</label>
+
+    <input
+      pInputText
+      id="teacherId"
+      formControlName="teacherId"
+      placeholder="Teacher UUID"
+    />
+
+    @if (
+    form.controls.teacherId.invalid &&
+    form.controls.teacherId.touched
+    ) {
+    <small class="error">
+      Teacher ID is required.
+    </small>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="credits">Credits</label>
+
+    <p-inputnumber
+      inputId="credits"
+      formControlName="credits"
+      [min]="1">
+    </p-inputnumber>
+
+    @if (
+    form.controls.credits.invalid &&
+    form.controls.credits.touched
+    ) {
+    <small class="error">
+      Credits must be at least 1.
+    </small>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="syllabus">Syllabus</label>
+
+    <input
+      pInputText
+      id="syllabus"
+      formControlName="syllabus"
+      placeholder="Syllabus"
+    />
+  </div>
+
+  <div class="form-field">
+    <label for="description">Description</label>
+
+    <textarea
+      pInputText
+      id="description"
+      formControlName="description"
+      rows="4"
+      placeholder="Course description">
+    </textarea>
+  </div>
+
+  <div class="form-actions">
+
+    <p-button
+      type="button"
+      label="Cancel"
+      severity="secondary"
+      (onClick)="cancel()">
+    </p-button>
+
+    <p-button
+      type="submit"
+      label="Save"
+      icon="pi pi-check">
+    </p-button>
+
+  </div>
+
+</form>

@@ -1,0 +1,29 @@
+.course-details-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.course-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.course-info > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.exams-section {
+  margin-top: 2rem;
+}
+
+.exams-section h2 {
+  margin-bottom: 1rem;
+}

@@ -302,4 +302,60 @@ class TeacherControllerTest {
                 .content("null"))
             .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void shouldRegeneratePasswordAndReturnItOnce() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        when(service.regeneratePassword(id)).thenReturn(Optional.of("P4ssw0rd!"));
+
+        mockMvc.perform(post("/api/teachers/" + id + "/password/regenerate"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.password").value("P4ssw0rd!"));
+
+        verify(service).regeneratePassword(id);
+    }
+
+    @Test
+    void shouldReturn404WhenRegeneratingPasswordForUnknownTeacher() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        when(service.regeneratePassword(id)).thenReturn(Optional.empty());
+
+        mockMvc.perform(post("/api/teachers/" + id + "/password/regenerate"))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldNeverExposeThePasswordHashInTeacherResponses() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        Teacher teacher = new Teacher(
+            id,
+            "Ana",
+            "Popescu",
+            "Assoc. Prof.",
+            "Computer Science",
+            "$2a$10$someBcryptHashValue"
+        );
+
+        TeacherDto dto = new TeacherDto(
+            id,
+            "Ana",
+            "Popescu",
+            "Assoc. Prof.",
+            "Computer Science"
+        );
+
+        when(service.getAll()).thenReturn(List.of(teacher));
+        when(mapper.toDto(teacher)).thenReturn(dto);
+
+        mockMvc.perform(get("/api/teachers"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].passwordHash").doesNotExist())
+            .andExpect(jsonPath("$[0].password").doesNotExist());
+    }
 }
