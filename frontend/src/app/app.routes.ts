@@ -12,6 +12,12 @@ export const routes: Routes = [
     component: Home,
   },
   {
+    path: 'login',
+    loadComponent: () => import('./features/auth/login/login').then(m => m.Login)
+  },
+  {
+    path: 'signup',
+    loadComponent: () => import('./features/auth/signup/signup').then(m => m.Signup)
     path: 'teachers',
     loadComponent: () => import('./features/teachers/teachers').then(m => m.Teachers),
   },
