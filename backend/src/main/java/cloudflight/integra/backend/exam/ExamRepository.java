@@ -1,15 +1,13 @@
 package cloudflight.integra.backend.exam;
 
-
 import cloudflight.integra.backend.exam.model.Exam;
-
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class ExamRepository {
+
     private final Map<UUID, Exam> exams = new HashMap<>();
 
     public List<Exam> findAll() {
@@ -24,7 +22,9 @@ public class ExamRepository {
         if (exam.getId() == null) {
             exam.setId(UUID.randomUUID());
         }
+
         exams.put(exam.getId(), exam);
+
         return exam;
     }
 
