@@ -1,13 +1,58 @@
-<div class="min-h-screen flex flex-col justify-between">
-  <header>
-    <h1>My Application</h1>
+<div class="app-layout">
+
+  <header class="app-header">
+    <div class="header-left">
+      <i class="pi pi-bars menu-icon" (click)="toggleSidebar()"></i>
+    </div>
+
+    <div class="app-logo">
+      Academic<span>Info</span>
+    </div>
+
+    <div class="user-area">
+      <span class="user-name">USER</span>
+
+      <div class="sign-out">
+        <i class="pi pi-sign-out"></i>
+        <span>Sign Out</span>
+      </div>
+    </div>
   </header>
 
-  <main class="m-4 flex-grow">
-    <router-outlet/>
-  </main>
+  <div class="app-body">
 
-  <footer class="text-center text-xs">
-    <app-about/>
-  </footer>
+    <aside class="sidebar" [class.closed]="!sidebarOpen()">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <i class="pi pi-home"></i>
+        <span>Home</span>
+      </a>
+
+      <a routerLink="/student/courses" routerLinkActive="active">
+        <i class="pi pi-book"></i>
+        <span>Courses</span>
+      </a>
+
+      <a routerLink="/teachers" routerLinkActive="active">
+        <i class="pi pi-users"></i>
+        <span>Teachers</span>
+      </a>
+    </aside>
+
+    <div class="main-area">
+
+      <main class="content">
+        <router-outlet />
+      </main>
+
+      <footer class="app-footer">
+        <app-about />
+      </footer>
+
+    </div>
+
+  </div>
+
 </div>
