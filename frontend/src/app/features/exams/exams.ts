@@ -13,6 +13,10 @@ import { Toast } from 'primeng/toast';
 import { ExamControllerService } from '../../core/api/api/examController.service';
 import { ExamDto } from '../../core/api/model/examDto';
 import {CourseControllerService, CourseDto} from '../../core/api';
+import { AuthService } from '../../core/services/auth.service';
+import { ExamRegistrationControllerService } from '../../core/api/api/examRegistrationController.service';
+import { ExamRegistrationDto } from '../../core/api/model/examRegistrationDto';
+
 
 @Component({
   selector: 'app-exams',
@@ -26,8 +30,15 @@ export class Exams implements OnInit {
   private readonly messageService = inject(MessageService);
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly courseService = inject(CourseControllerService);
-  private readonly currentTeacherId = signal<string | null>(null);/// de modificat dupa auth
+  private readonly authService = inject(AuthService);
 
+  private readonly currentTeacherId = signal<string | null>(this.authService.getUserId());
+  private readonly currentStudentGroup = signal<string | null>(this.authService.getGroup());
+  private readonly registrationService = inject(ExamRegistrationControllerService);
+  private readonly currentStudentId = signal<string | null>(this.authService.getUserId());
+
+  protected readonly myRegistrations = signal<ExamRegistrationDto[]>([]);
+  protected readonly isTeacher = signal<boolean>(this.authService.getRole() === 'TEACHER');
   protected readonly exams = signal<ExamDto[]>([]);
   protected readonly loading = signal(false);
   protected readonly formDialogVisible = signal(false);
@@ -58,9 +69,27 @@ export class Exams implements OnInit {
     this.courses().filter(c => c.teacherId === this.currentTeacherId())
   );
 
+  protected readonly studentExams = computed(() => {
+    const group = this.currentStudentGroup();
+    if (!group) return this.exams();
+    return this.exams().filter(e => e.group === group);
+  });
+
   ngOnInit(): void {
     this.loadExams();
+    if (!this.isTeacher()) {
+      this.loadMyRegistrations();
+    }
     this.loadCourses();
+  }
+
+  private loadMyRegistrations(): void {
+    const studentId = this.currentStudentId();
+    if (!studentId) return;
+    this.registrationService.getRegistrationsByStudent(studentId).subscribe({
+      next: (regs) => this.myRegistrations.set(regs),
+      error: () => this.showError('Could not load your registrations.'),
+    });
   }
 
   protected loadExams(): void {
@@ -102,6 +131,26 @@ export class Exams implements OnInit {
       secondaryDate: '',
     });
     this.formDialogVisible.set(true);
+  }
+
+  protected chosenSlotFor(examId: string): 'PRIMARY' | 'SECONDARY' | undefined {
+    return this.myRegistrations().find(r => r.examId === examId)?.chosenSlot as any;
+  }
+
+  protected register(exam: ExamDto, slot: 'PRIMARY' | 'SECONDARY'): void {
+    const dto = {
+      studentId: this.currentStudentId(),
+      examId: exam.id,
+      chosenSlot: slot,
+    } as ExamRegistrationDto;
+
+    this.registrationService.createRegistration(dto).subscribe({
+      next: () => {
+        this.loadMyRegistrations();
+        this.showSuccess('You signed up for the exam');
+      },
+      error: (err) => this.showError(err.error?.message ?? 'Could not sign up.'),
+    });
   }
 
   protected closeFormDialog(): void {

@@ -1,5 +1,7 @@
 <p-toast />
 
+@if (isTeacher()) {
+
 <div class="exams-toolbar">
   <h2>Exams</h2>
   <p-button label="Schedule exam" icon="pi pi-plus" (onClick)="openCreateDialog()" />
@@ -110,3 +112,60 @@
     <p-button label="Save" (onClick)="save()" />
   </ng-template>
 </p-dialog>
+
+} @else {
+
+  <div class="exams-toolbar">
+    <h2>My exams</h2>
+  </div>
+
+  <p-table [value]="studentExams()" [paginator]="true" [rows]="10">
+    <ng-template #header>
+      <tr>
+        <th>Course</th><th>Type</th><th>Format</th><th>Room</th><th>Duration</th>
+        <th>Primary date</th><th>Secondary date</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-exam>
+      <tr>
+        <td>{{ courseName(exam.courseId) }}</td>
+        <td>{{ exam.examType }}</td>
+        <td>{{ exam.examFormat }}</td>
+        <td>{{ exam.room }}</td>
+        <td>{{ exam.duration }} min</td>
+
+        <td>
+          {{ exam.primaryDate }}
+          @if (chosenSlotFor(exam.id) === 'PRIMARY') {
+            <span class="chosen"> — Chosen ✓</span>
+          } @else {
+            <p-button label="Sign up" size="small"
+                      [disabled]="!!chosenSlotFor(exam.id)"
+                      (onClick)="register(exam, 'PRIMARY')" />
+          }
+        </td>
+
+        <td>
+          @if (exam.secondaryDate) {
+            {{ exam.secondaryDate }}
+            @if (chosenSlotFor(exam.id) === 'SECONDARY') {
+              <span class="chosen"> — Chosen ✓</span>
+            } @else {
+              <p-button label="Sign up" size="small"
+                        [disabled]="!!chosenSlotFor(exam.id)"
+                        (onClick)="register(exam, 'SECONDARY')" />
+            }
+          } @else {
+            —
+          }
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr><td colspan="7">No exams found.</td></tr>
+    </ng-template>
+  </p-table>
+
+}
