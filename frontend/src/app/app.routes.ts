@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './features/home/home';
 import { CourseList } from './features/courses/course-list/course-list';
 import { CourseDetails } from './features/courses/course-details/course-details';
+import { FinalGradesComponent } from './features/final-grades/final-grades';
 import { StudentOverview } from './features/overviews/student-overview/student-overview';
 import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
 
@@ -30,6 +31,8 @@ export const routes: Routes = [
     component: CourseDetails,
   },
   {
+    path: 'final-grades',
+    component: FinalGradesComponent
     path: 'student/courses',
     component: StudentOverview,
   },
