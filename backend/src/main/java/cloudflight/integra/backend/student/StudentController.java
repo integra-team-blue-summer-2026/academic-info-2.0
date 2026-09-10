@@ -2,6 +2,7 @@ package cloudflight.integra.backend.student;
 
 import cloudflight.integra.backend.student.model.StudentDto;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,12 +21,12 @@ public class StudentController {
         this.mapper = mapper;
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<StudentDto> getAll() {
         return service.getAll().stream().map(mapper::toDto).toList();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public StudentDto getById(@PathVariable UUID id) {
         return service.getById(id).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

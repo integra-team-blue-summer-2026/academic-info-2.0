@@ -1,13 +1,7 @@
-import {Component} from '@angular/core';
-import {Button} from 'primeng/button';
-import {RouterLink} from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-home',
-  imports: [
-    Button,
-    RouterLink
-  ],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

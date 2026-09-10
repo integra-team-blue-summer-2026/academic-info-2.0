@@ -4,6 +4,9 @@ import { CourseList } from './features/courses/course-list/course-list';
 import { CourseDetails } from './features/courses/course-details/course-details';
 import { StudentFinalGradesComponent } from './features/student-final-grades/student-final-grades';
 import {TeacherFinalGrades} from './features/teacher-final-grades/teacher-final-grades';
+import { FinalGradesComponent } from './features/final-grades/final-grades';
+import { StudentOverview } from './features/overviews/student-overview/student-overview';
+import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
 
 export const routes: Routes = [
   {
@@ -12,11 +15,18 @@ export const routes: Routes = [
   },
   {
     path: 'teachers',
-    loadComponent: () => import('./features/teachers/teachers').then(m => m.Teachers),
+    loadComponent: () =>
+      import('./features/teachers/teachers').then(m => m.Teachers),
   },
   {
     path: 'courses',
     component: CourseList,
+  },
+  {
+    path: 'courses/teacher/:id',
+    loadComponent: () =>
+      import('./features/courses/course-details-teacher/course-details-teacher')
+        .then(m => m.CourseDetailsTeacher),
   },
   {
     path: 'courses/:id',
@@ -29,5 +39,13 @@ export const routes: Routes = [
   {
     path: 'final-grades',
     component: TeacherFinalGrades
+    path: 'final-grades',
+    component: FinalGradesComponent
+    path: 'student/courses',
+    component: StudentOverview,
+  },
+  {
+    path: 'teacher/courses',
+    component: TeacherOverview,
   }
 ];

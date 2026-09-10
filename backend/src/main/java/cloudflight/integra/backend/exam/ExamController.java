@@ -2,6 +2,7 @@ package cloudflight.integra.backend.exam;
 
 import cloudflight.integra.backend.exam.model.ExamDto;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,12 +22,12 @@ public class ExamController {
         this.mapper = mapper;
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ExamDto> getAll() {
         return  service.getAll().stream().map(mapper::toDto).toList();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ExamDto getById(@PathVariable UUID id) {
         return service.getById(id).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
