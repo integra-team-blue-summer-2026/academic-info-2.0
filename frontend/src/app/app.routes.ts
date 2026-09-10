@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './features/home/home';
 import { CourseList } from './features/courses/course-list/course-list';
 import { CourseDetails } from './features/courses/course-details/course-details';
+import { FinalGradesComponent } from './features/final-grades/final-grades';
 import {Exams} from './features/exams/exams';
 import { StudentOverview } from './features/overviews/student-overview/student-overview';
 import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
@@ -18,6 +19,8 @@ export const routes: Routes = [
   {
     path: 'signup',
     loadComponent: () => import('./features/auth/signup/signup').then(m => m.Signup)
+    },
+  {
     path: 'teachers',
     loadComponent: () => import('./features/teachers/teachers').then(m => m.Teachers),
   },
@@ -39,6 +42,10 @@ export const routes: Routes = [
     path: 'courses/:id',
     component: CourseDetails,
   },
+  {
+    path: 'final-grades',
+    component: FinalGradesComponent,
+    },
   {
     path: 'student/courses',
     component: StudentOverview,
