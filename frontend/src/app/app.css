@@ -1,36 +1,130 @@
-/* ...existing code... */
-.home-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  text-align: center;
-}
-.home-actions {
-  margin: 1.5rem 0;
-}
-.home-links {
-  list-style: none;
-  padding: 0;
-  margin: 2rem 0 0 0;
+.app-layout {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  background: #f7f8fc;
 }
-.home-links a {
-  color: #1976d2;
+
+.app-header {
+  position: relative;
+  height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background: #3164e8;
+  color: white;
+}
+
+.header-left {
+  width: 180px;
+  display: flex;
+  align-items: center;
+}
+
+.menu-icon {
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.app-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: white;
+}
+
+.app-logo span {
+  color: #ff2d2d;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-weight: 600;
+}
+
+.sign-out {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebar {
+  width: 260px;
+  background: #3164e8;
+  padding: 1.5rem 1rem;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.95rem 1rem;
+  margin-bottom: 0.4rem;
+  border-radius: 8px;
+  color: white;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s;
+  font-size: 1rem;
+  transition: background 0.2s ease;
 }
-.home-links a:hover {
-  color: #0d47a1;
+
+.sidebar a i {
+  width: 22px;
+  font-size: 1.15rem;
 }
-@media (max-width: 600px) {
-  .home-container {
-    padding: 1rem;
-  }
+
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
-/* ...existing code... */
+
+.sidebar a.active {
+  background: white;
+  color: #3164e8;
+  font-weight: 700;
+}
+
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 2.5rem 3rem;
+  background: #f7f8fc;
+}
+
+.app-footer {
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #555;
+  background: #f7f8fc;
+}
+
+.sidebar {
+  transition: width 0.25s ease, padding 0.25s ease;
+  overflow: hidden;
+}
+
+.sidebar.closed {
+  width: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
