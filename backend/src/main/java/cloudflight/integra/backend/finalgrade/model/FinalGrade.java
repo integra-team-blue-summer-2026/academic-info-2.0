@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public class FinalGrade {
     private UUID id;
-    private Course course;
-    private Student student;
+    private UUID courseId;
+    private UUID studentId;
     private Integer semester;
     private Integer grade;
     private Boolean provisional;
@@ -16,10 +16,10 @@ public class FinalGrade {
 
     public FinalGrade() {}
 
-    public FinalGrade(UUID id, Course course, Student student, Integer semester, Boolean provisional, Integer grade, String completionDate) {
+    public FinalGrade(UUID id, UUID courseId, UUID studentId, Integer semester, Boolean provisional, Integer grade, String completionDate) {
         this.id = id;
-        this.course = course;
-        this.student = student;
+        this.courseId = courseId;
+        this.studentId = studentId;
         this.semester = semester;
         this.provisional = provisional;
         this.grade = grade;
@@ -34,20 +34,20 @@ public class FinalGrade {
         this.id = id;
     }
 
-    public Course getCourse() {
-        return course;
+    public UUID getCourseId() {
+        return courseId;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setCourseId(UUID courseId) {
+        this.courseId = courseId;
     }
 
-    public Student getStudent() {
-        return student;
+    public UUID getStudentId() {
+        return studentId;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudentId(UUID studentId) {
+        this.studentId = studentId;
     }
 
     public Integer getSemester() {

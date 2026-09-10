@@ -45,4 +45,8 @@ public class CourseService {
             })
             .orElse(false);
     }
+
+    public List<Course> getByTeacherId(UUID teacherId) {
+        return repository.findAll().stream().filter(course -> course.getTeacherId().equals(teacherId)).toList();
+    }
 }

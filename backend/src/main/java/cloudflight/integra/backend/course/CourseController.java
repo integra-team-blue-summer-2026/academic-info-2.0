@@ -153,4 +153,10 @@ public class CourseController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
+
+    @Operation(operationId ="getCoursesByTeacherId")
+    @GetMapping(value = "/teacher/{teacherId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CourseDto> getByTeacherId(@PathVariable UUID teacherId) {
+        return service.getByTeacherId(teacherId).stream().map(mapper::toDto).toList();
+    }
 }
