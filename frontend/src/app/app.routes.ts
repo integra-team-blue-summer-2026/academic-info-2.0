@@ -19,7 +19,7 @@ export const routes: Routes = [
   {
     path: 'signup',
     loadComponent: () => import('./features/auth/signup/signup').then(m => m.Signup)
-    },
+  },
   {
     path: 'teachers',
     loadComponent: () => import('./features/teachers/teachers').then(m => m.Teachers),

@@ -107,8 +107,7 @@ export class Exams implements OnInit {
   }
 
   protected loadCourses(): void {
-    //de modificat pt ca in alt PR e pus numele getAllCourses
-    this.courseService.getAll3().subscribe({
+    this.courseService.getAllCourses().subscribe({
       next: (courses) => this.courses.set(courses),
       error: () => this.showError('Could not load the courses.'),
     });
@@ -164,7 +163,12 @@ export class Exams implements OnInit {
       return;
     }
 
-    const examDto ={ ...this.form.getRawValue(), teacherId: this.currentTeacherId(), } as ExamDto;
+    const raw = this.form.getRawValue();
+    const examDto = {
+      ...raw,
+      secondaryDate: raw.secondaryDate || null,
+      teacherId: this.currentTeacherId(),
+    } as ExamDto;
 
     this.examService.createExam(examDto).subscribe({
       next: () => {
@@ -185,5 +189,13 @@ export class Exams implements OnInit {
 
   private showError(detail: string): void {
     this.messageService.add({ severity: 'error', summary: 'Error', detail });
+  }
+
+  protected formatDate(value: string | undefined): string {
+    if (!value) return '—';
+    return new Date(value).toLocaleString('ro-RO', {
+      day: '2-digit', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit',
+    });
   }
 }

@@ -36,7 +36,6 @@ describe('Exams', () => {
   };
 
   const courseService = {
-    /// de modificat in getAllCoursese
     getAll3: vi.fn(() => of(courses)),
   };
 

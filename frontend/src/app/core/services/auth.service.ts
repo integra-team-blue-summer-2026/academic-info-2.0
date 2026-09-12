@@ -67,4 +67,18 @@ export class AuthService {
   getToken(): string | null {
     return this._token();
   }
+
+  // TODO: cand backend-ul de auth exista, schimba decodand tokenul
+
+  getRole(): string {
+    return 'TEACHER';   // schimba în 'STUDENT' ca sa testezi vederea studentului
+  }
+
+  getUserId(): string {
+    return '11111111-1111-1111-1111-111111111111';
+  }
+
+  getGroup(): string {
+    return '221';
+  }
 }

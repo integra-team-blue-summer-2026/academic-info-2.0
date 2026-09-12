@@ -34,14 +34,14 @@
       <td>{{ exam.examFormat }}</td>
       <td>{{ exam.room }}</td>
       <td>{{ exam.duration }} min</td>
-      <td>{{ exam.primaryDate }}</td>
-      <td>{{ exam.secondaryDate }}</td>
+      <td>{{ formatDate(exam.primaryDate) }}</td>
+      <td>{{ formatDate(exam.secondaryDate) }}</td>
     </tr>
   </ng-template>
 
   <ng-template #emptymessage>
     <tr>
-      <td colspan="7">No exams found.</td>
+      <td colspan="8">No exams found.</td>
     </tr>
   </ng-template>
 </p-table>
@@ -98,7 +98,7 @@
       dateFormat="yy-mm-dd"
     />
 
-    <label for="secondaryDate">Secondary date (optional)</label>
+    <label for="secondaryDate">Secondary date</label>
     <p-datepicker
       id="secondaryDate"
       formControlName="secondaryDate"
@@ -136,7 +136,7 @@
         <td>{{ exam.duration }} min</td>
 
         <td>
-          {{ exam.primaryDate }}
+          {{ formatDate(exam.primaryDate) }}
           @if (chosenSlotFor(exam.id) === 'PRIMARY') {
             <span class="chosen"> — Chosen ✓</span>
           } @else {
@@ -148,7 +148,7 @@
 
         <td>
           @if (exam.secondaryDate) {
-            {{ exam.secondaryDate }}
+            {{ formatDate(exam.secondaryDate) }}
             @if (chosenSlotFor(exam.id) === 'SECONDARY') {
               <span class="chosen"> — Chosen ✓</span>
             } @else {
