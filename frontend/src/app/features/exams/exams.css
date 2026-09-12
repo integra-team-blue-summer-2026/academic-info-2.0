@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.exams-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.exams-toolbar h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.exam-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.exam-form label {
+  margin-top: 0.75rem;
+  font-weight: 500;
+}
+
+/* Dropdown-urile și datepicker-ele să ocupe toată lățimea,
+   ca inputurile text, altfel arată inconsecvent */
+.exam-form p-select,
+.exam-form p-datepicker,
+.exam-form p-inputNumber {
+  width: 100%;
+}
