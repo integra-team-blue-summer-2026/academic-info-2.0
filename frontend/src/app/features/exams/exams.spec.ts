@@ -3,8 +3,8 @@ import { of, throwError } from 'rxjs';
 import { vi } from 'vitest';
 
 import { Exams } from './exams';
-import { ExamControllerService } from '../../core/api/api/examController.service';
-import { CourseControllerService } from '../../core/api/api/courseController.service';
+import { ExamControllerService } from '../../core/api/services/examController.service';
+import { CourseControllerService } from '../../core/api/services/courseController.service';
 
 describe('Exams', () => {
   let component: Exams;

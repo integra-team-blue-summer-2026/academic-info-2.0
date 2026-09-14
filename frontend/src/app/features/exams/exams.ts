@@ -10,12 +10,12 @@ import { InputNumber } from 'primeng/inputnumber';
 import { Table, TableModule } from 'primeng/table';
 import { Toast } from 'primeng/toast';
 
-import { ExamControllerService } from '../../core/api/api/examController.service';
-import { ExamDto } from '../../core/api/model/examDto';
+import { ExamControllerService } from '../../core/api/services/examController.service';
+import { ExamDto } from '../../core/api/models/examDto';
 import {CourseControllerService, CourseDto} from '../../core/api';
 import { AuthService } from '../../core/services/auth.service';
-import { ExamRegistrationControllerService } from '../../core/api/api/examRegistrationController.service';
-import { ExamRegistrationDto } from '../../core/api/model/examRegistrationDto';
+import { ExamRegistrationControllerService } from '../../core/api/services/examRegistrationController.service';
+import { ExamRegistrationDto } from '../../core/api/models/examRegistrationDto';
 
 
 @Component({
