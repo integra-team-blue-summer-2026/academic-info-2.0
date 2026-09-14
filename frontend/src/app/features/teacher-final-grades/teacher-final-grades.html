@@ -1,0 +1,145 @@
+<div class="grades-container">
+  <p-confirmDialog>
+    <ng-template pTemplate="message">
+      @if (selectedStudent(); as student) {
+        <div class="confirm-content">
+          <div class="confirm-student-title">
+            <span class="name">{{ student.studentName }}</span>
+            <span class="group">{{ student.group }}</span>
+          </div>
+
+          <div class="confirm-course-grade-row">
+            <span class="confirm-course">{{ selectedCourseName() }}</span>
+            <p-tag
+              class="grade-tag"
+              [value]="editProvisional() ? editGradeValue() + ' (Provisional)' : editGradeValue() + ' (Final)'"
+              [severity]="(editGradeValue() ?? 0) < 5 ? (editProvisional() ? 'warn' : 'danger') : (editProvisional() ? 'info' : 'success')">
+            </p-tag>
+          </div>
+        </div>
+      }
+    </ng-template>
+  </p-confirmDialog>
+
+  <div class="header-toolbar">
+    <h2 class="title">Final Grades</h2>
+
+    <p-buttonGroup class="course-buttons">
+      @for (opt of allCourses(); track opt.id) {
+        <p-button
+          [label]="opt.courseName"
+          (onClick)="selectCourse(opt.id)"
+          [severity]="selectedCourseId() === opt.id ? 'primary' : 'secondary'"
+          [outlined]="selectedCourseId() !== opt.id">
+        </p-button>
+      }
+    </p-buttonGroup>
+  </div>
+
+  <div class="content-wrapper">
+    <p-table
+      class="students-table"
+      [loading]="loading()"
+      [value]="filteredStudents()"
+      dataKey="studentId">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="studentName" class="col-name">
+            Student Name <p-sortIcon field="studentName"></p-sortIcon>
+          </th>
+          <th pSortableColumn="group" class="col-group">
+            Group <p-sortIcon field="group"></p-sortIcon>
+          </th>
+          <th pSortableColumn="grade" class="col-grade">
+            Grade (Status) <p-sortIcon field="grade"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-row>
+        <tr
+          (click)="onSelectStudent(row)"
+          [class.active-row]="selectedStudent()?.studentId === row.studentId"
+          class="student-row">
+
+          <td class="student-name">
+            <span>{{ row.studentName }}</span>
+          </td>
+
+          <td class="student-group">
+            <span>{{ row.group }}</span>
+          </td>
+
+          <td style="text-align: right;">
+            @if (row.grade !== null && row.grade !== undefined) {
+              <p-tag
+                class="grade-tag"
+                [value]="row.provisional ? row.grade + ' (Provisional)' : row.grade + ' (Final)'"
+                [severity]="row.grade < 5 ? (row.provisional ? 'warn' : 'danger') : (row.provisional ? 'info' : 'success')">
+              </p-tag>
+            } @else {
+              <p-tag
+                class="grade-tag"
+                value="No grade"
+                severity="secondary">
+              </p-tag>
+            }
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="3" class="empty-message">No students enrolled.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    @if (selectedStudent(); as student) {
+      <div class="grade-edit-panel">
+        <div class="panel-header">
+          <h3 class="panel-name">{{ student.studentName }}</h3>
+          <span class="panel-group">{{ student.group }}</span>
+        </div>
+
+        <div class="inputs-row">
+          <div class="grade-input-group">
+            <label for="gradeInput">Grade:</label>
+            <input
+              id="gradeInput"
+              type="number"
+              min="1"
+              max="10"
+              class="input-grade"
+              [ngModel]="editGradeValue()"
+              (ngModelChange)="editGradeValue.set($event)"
+              placeholder="1-10" />
+          </div>
+
+          <div class="checkbox-group">
+            <label>
+              <input
+                type="checkbox"
+                [ngModel]="editProvisional()"
+                (ngModelChange)="editProvisional.set($event)" />
+              Provisional
+            </label>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <p-button
+            label="Save"
+            icon="pi pi-check"
+            size="small"
+            styleClass="w-full"
+            [loading]="isSaving()"
+            (onClick)="confirmSaveGrade()"
+            [disabled]="editGradeValue() === null || editGradeValue()! < 1 || editGradeValue()! > 10">
+          </p-button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

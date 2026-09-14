@@ -9,6 +9,7 @@ public class Student {
     private String lastName;
     private String dateOfBirth;
     private String email;
+    private String group;
 
     public UUID getId() {
         return id;
@@ -56,5 +57,13 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

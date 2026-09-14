@@ -8,5 +8,6 @@ public record StudentDto(
     String firstName,
     String lastName,
     String dateOfBirth,
-    String email
+    String email,
+    String group
 ) {}

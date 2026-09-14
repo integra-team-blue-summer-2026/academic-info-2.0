@@ -35,54 +35,19 @@ public class FinalGradeRepository {
 
     public List<FinalGrade> findByStudentId(UUID studentId) {
         return finalGrades.values().stream()
-            .filter(grade -> Objects.equals(grade.getStudent().getId(), studentId))
+            .filter(grade -> Objects.equals(grade.getStudentId(), studentId))
             .toList();
     }
 
-    // TEST FRONTEND ONLY
-    @PostConstruct
-    public void initMockData() {
-        Student student = new Student();
-        student.setId(TEST_STUDENT_ID);
-        student.setFirstName("Ion");
-        student.setLastName("Popescu");
-
-        // Semestrul 1
-        createGrade(student, "Arhitectura Sistemelor de Calcul", 5, 1, 9, false, "2024-02-10");
-        createGrade(student, "Fundamentele Programarii", 6, 1, 10, false, "2024-02-12");
-        createGrade(student, "Algebra Liniara si Geometrie", 5, 1, 8, false, "2024-02-15");
-
-        // Semestrul 2
-        createGrade(student, "Structuri de Date si Algoritmi", 6, 2, 4, false, "2024-06-20");
-        createGrade(student, "Sisteme de Operare", 5, 2, 4, true, "2024-06-22");
-        createGrade(student, "Programare Orientata Obiect", 6, 2, 10, false, "2024-06-25");
-
-        // Semestrul 3
-        createGrade(student, "Baze de Date", 5, 3, 10, false, "2025-02-08");
-        createGrade(student, "Metode Avansate de Programare", 6, 3, 9, false, "2025-02-11");
-        createGrade(student, "Retele de Calculatoare", 5, 3, 8, false, "2025-02-14");
-
-        // Semestrul 4
-        createGrade(student, "Ingineria Sistemelor Soft", 5, 4, 9, true, "2025-06-18");
-        createGrade(student, "Sisteme de Gestiune a Bazelor de Date", 5, 4, 8, true, "2025-06-20");
-        createGrade(student, "Inteligenta Artificiala", 6, 4, 10, false, "2025-06-24");
+    public List<FinalGrade> findByCourseId(UUID courseId) {
+        return finalGrades.values().stream()
+            .filter(grade -> Objects.equals(grade.getCourseId(), courseId))
+            .toList();
     }
 
-    private void createGrade(Student student, String courseName, int credits, int semester, int gradeVal, boolean provisional, String completionDate) {
-        Course course = new Course();
-        course.setId(UUID.randomUUID());
-        course.setCourseName(courseName);
-        course.setCredits(credits);
-
-        FinalGrade grade = new FinalGrade();
-        grade.setId(UUID.randomUUID());
-        grade.setStudent(student);
-        grade.setCourse(course);
-        grade.setSemester(semester);
-        grade.setGrade(gradeVal);
-        grade.setProvisional(provisional);
-        grade.setCompletionDate(completionDate);
-
-        save(grade);
+    public Optional<FinalGrade> findByStudentIdAndCourseId(UUID studentId, UUID courseId) {
+        return finalGrades.values().stream()
+            .filter(fg -> studentId.equals(fg.getStudentId()) && courseId.equals(fg.getCourseId()))
+            .findFirst();
     }
 }
