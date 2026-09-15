@@ -2,6 +2,7 @@ package cloudflight.integra.backend.studentexam;
 
 
 import cloudflight.integra.backend.studentexam.model.StudentExamDto;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,26 +22,31 @@ public class StudentExamController {
         this.mapper = mapper;
     }
 
+    @Operation(operationId = "getAllStudentExams")
     @GetMapping
     public List<StudentExamDto> getAll() { return service.getAll().stream().map(mapper::toDto).toList(); }
 
+    @Operation(operationId = "getStudentExamById")
     @GetMapping("/{id}")
     public StudentExamDto getById(@PathVariable UUID id){
         return service.getById(id).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @Operation(operationId = "createStudentExam")
     @PostMapping
     public ResponseEntity<StudentExamDto> create(@RequestBody StudentExamDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(service.create(mapper.toEntity(dto))));
     }
 
+    @Operation(operationId = "updateStudentExam")
     @PutMapping("/{id}")
     public StudentExamDto update(@PathVariable UUID id, @RequestBody StudentExamDto dto) {
         return service.update(id, mapper.toEntity(dto)).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @Operation(operationId = "deleteStudentExam")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) { service.delete(id); }
 }
