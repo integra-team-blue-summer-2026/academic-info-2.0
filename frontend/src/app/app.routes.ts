@@ -7,6 +7,7 @@ import {TeacherFinalGrades} from './features/teacher-final-grades/teacher-final-
 import { FinalGradesComponent } from './features/final-grades/final-grades';
 import { StudentOverview } from './features/overviews/student-overview/student-overview';
 import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
+import { StudentThesis } from './features/student-thesis/student-thesis';
 
 export const routes: Routes = [
   {
@@ -39,13 +40,21 @@ export const routes: Routes = [
   {
     path: 'final-grades',
     component: TeacherFinalGrades
+  },
+  {
     path: 'final-grades',
     component: FinalGradesComponent
+  },
+  {
     path: 'student/courses',
     component: StudentOverview,
   },
   {
     path: 'teacher/courses',
     component: TeacherOverview,
+  },
+  {
+    path: 'student/thesis',
+    component: StudentThesis
   }
 ];
