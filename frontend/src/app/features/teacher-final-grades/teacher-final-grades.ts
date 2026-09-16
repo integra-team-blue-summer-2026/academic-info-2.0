@@ -7,6 +7,7 @@ import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { ButtonGroupModule } from 'primeng/buttongroup';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
 import { ConfirmationService, SharedModule } from 'primeng/api';
 
 import {
@@ -14,7 +15,8 @@ import {
   CourseDto,
   FinalGradeControllerService,
   StudentGradeRowDto,
-  TeacherFinalGradeDto
+  TeacherFinalGradeDto,
+  YearlyStatisticsDto
 } from '../../core/api';
 
 @Component({
@@ -28,7 +30,8 @@ import {
     ButtonGroupModule,
     SharedModule,
     FormsModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    DialogModule
   ],
   providers: [ConfirmationService],
   templateUrl: './teacher-final-grades.html',
@@ -46,6 +49,16 @@ export class TeacherFinalGrades implements OnInit {
 
   editGradeValue = signal<number | null>(null);
   editProvisional = signal<boolean>(false);
+
+  showStatsDialog = signal<boolean>(false);
+  statisticsLoading = signal<boolean>(false);
+  yearlyStats = signal<YearlyStatisticsDto[]>([]);
+
+  currentYearStats = signal<YearlyStatisticsDto | null>(null);
+  normalAverage = signal<number | null>(null);
+  percentageDeviation = signal<number | null>(null);
+  alertTriggered = signal<boolean>(false);
+  alertMessage = signal<string>('');
 
   filteredStudents = computed(() => {
     return this.gradingSheet();
@@ -75,6 +88,7 @@ export class TeacherFinalGrades implements OnInit {
           const firstCourseId = courses[0].id ?? null;
           this.selectedCourseId.set(firstCourseId);
           this.loadGradingSheet(firstCourseId);
+          this.loadStatistics(firstCourseId);
         }
         this.loading.set(false);
       },
@@ -88,6 +102,7 @@ export class TeacherFinalGrades implements OnInit {
     if (courseId) {
       this.selectedCourseId.set(courseId);
       this.loadGradingSheet(courseId);
+      this.loadStatistics(courseId);
     }
   }
 
@@ -106,6 +121,68 @@ export class TeacherFinalGrades implements OnInit {
         this.loading.set(false);
       }
     });
+  }
+
+  loadStatistics(courseId: string | null): void {
+    if (!courseId) return;
+
+    this.statisticsLoading.set(true);
+    this.finalGradeService.getCourseStatistics(courseId).subscribe({
+      next: (stats) => {
+        this.yearlyStats.set(stats);
+        this.computeStatisticsAndAlerts(stats);
+        this.statisticsLoading.set(false);
+      },
+      error: () => {
+        this.statisticsLoading.set(false);
+      }
+    });
+  }
+
+  private computeStatisticsAndAlerts(stats: YearlyStatisticsDto[]): void {
+    if (!stats || stats.length === 0) {
+      this.currentYearStats.set(null);
+      this.normalAverage.set(null);
+      this.alertTriggered.set(false);
+      return;
+    }
+
+    const current = stats[0];
+    this.currentYearStats.set(current);
+
+    const previousYears = stats.slice(1, 4);
+
+    if (previousYears.length > 0 && current.averageGrade !== undefined && current.averageGrade !== null) {
+      const sum = previousYears.reduce((acc, item) => acc + (item.averageGrade ?? 0), 0);
+      const normal = Math.round((sum / previousYears.length) * 100) / 100;
+      this.normalAverage.set(normal);
+
+      if (normal > 0) {
+        const deviation = Math.round(((current.averageGrade - normal) / normal) * 1000) / 10;
+        this.percentageDeviation.set(deviation);
+
+        if (Math.abs(deviation) >= 10) {
+          this.alertTriggered.set(true);
+
+          const msg = deviation > 0
+            ? `Performance increased by ${deviation}% compared to The Normal (${normal})!`
+            : `Performance decreased by ${Math.abs(deviation)}% compared to The Normal (${normal})!`;
+
+          this.alertMessage.set(msg);
+
+        } else {
+          this.alertTriggered.set(false);
+          this.alertMessage.set('');
+        }
+      }
+    } else {
+      this.normalAverage.set(null);
+      this.alertTriggered.set(false);
+    }
+  }
+
+  openStatisticsModal(): void {
+    this.showStatsDialog.set(true);
   }
 
   onSelectStudent(student: StudentGradeRowDto): void {
@@ -180,6 +257,8 @@ export class TeacherFinalGrades implements OnInit {
 
         this.selectedStudent.set(updatedStudent);
         this.isSaving.set(false);
+
+        this.loadStatistics(courseId);
       },
       error: () => {
         this.isSaving.set(false);

@@ -36,6 +36,15 @@
     </p-buttonGroup>
   </div>
 
+  <div class="stats-button-div">
+    <p-button
+      [label]="`View Statistics`"
+      [icon]="alertTriggered() ? 'pi pi-exclamation-triangle' : 'pi pi-chart-bar'"
+      [styleClass]="alertTriggered() ? 'stats-btn alert-active' : 'stats-btn default-state'"
+      (onClick)="openStatisticsModal()">
+    </p-button>
+  </div>
+
   <div class="content-wrapper">
     <p-table
       class="students-table"
@@ -142,4 +151,54 @@
       </div>
     }
   </div>
+
+  <p-dialog
+    [visible]="showStatsDialog()"
+    (visibleChange)="showStatsDialog.set($event)"
+    [header]="'Statistics - ' + selectedCourseName()"
+    [modal]="true"
+    styleClass="stats-dialog">
+
+    @if (alertTriggered()) {
+      <div class="stats-alert-banner">
+        <i class="pi pi-exclamation-triangle stats-alert-icon"></i>
+        <span>{{ alertMessage() }}</span>
+      </div>
+    }
+
+    <div class="stats-summary-row">
+      <div class="stats-summary-item">
+        <span class="stats-label">Current Year Average: </span>
+        <span class="stats-value">{{ currentYearStats()?.averageGrade ?? 'N/A' }}</span>
+      </div>
+      <div class="stats-summary-item">
+        <span class="stats-label">The Normal (3-Year Avg): </span>
+        <span class="stats-value">{{ normalAverage() !== null ? normalAverage() : 'N/A' }}</span>
+      </div>
+    </div>
+
+    <p-table [value]="yearlyStats()" [loading]="statisticsLoading()" styleClass="p-datatable-sm">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Academic Year</th>
+          <th>Average Grade</th>
+          <th>Pass Rate</th>
+          <th>Students</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-stat>
+        <tr>
+          <td>{{ stat.academicYear }}</td>
+          <td>{{ stat.averageGrade }}</td>
+          <td>{{ stat.passRatePercentage }}%</td>
+          <td>{{ stat.totalStudents }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="stats-empty-cell">No historical statistics found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-dialog>
 </div>

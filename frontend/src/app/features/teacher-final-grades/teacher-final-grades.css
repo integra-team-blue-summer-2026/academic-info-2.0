@@ -3,7 +3,7 @@
 }
 
 .title {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   font-family: inherit;
   font-size: 2.5rem;
   font-weight: 600;
@@ -46,15 +46,15 @@
 }
 
 :host ::ng-deep .course-buttons .p-button-primary:not(.p-button-outlined) {
-  background-color: #2563eb !important;
-  border-color: #2563eb !important;
+  background-color: #3164e8 !important;
+  border-color: #3164e8 !important;
   color: #ffffff !important;
   box-shadow: none;
 }
 
 :host ::ng-deep .course-buttons .p-button-primary:not(.p-button-outlined):hover {
-  background-color: #1d4ed8 !important;
-  border-color: #1d4ed8 !important;
+  background-color: #3164e8 !important;
+  border-color: #3164e8 !important;
 }
 
 :host ::ng-deep .students-table th {
@@ -75,6 +75,25 @@
   width: 50%;
   max-width: 50%;
   font-size: 1.1rem;
+}
+
+:host ::ng-deep .students-table .p-datatable {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+:host ::ng-deep .students-table .p-datatable-thead > tr > th:first-child {
+  border-top-left-radius: 12px;
+}
+
+:host ::ng-deep .students-table .p-datatable-thead > tr > th:last-child {
+  border-top-right-radius: 12px;
+}
+
+:host ::ng-deep .students-table .p-datatable-tbody > tr:last-child > td {
+  border-bottom: none !important;
 }
 
 .student-row {
@@ -265,6 +284,104 @@
   margin: 0;
 }
 
+.stats-button-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+:host ::ng-deep .stats-btn {
+  min-width: 230px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+:host ::ng-deep .stats-btn.default-state {
+  background-color: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  color: #4b5563 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+:host ::ng-deep .stats-btn.default-state .p-button-icon {
+  color: #6b7280 !important;
+}
+
+:host ::ng-deep .stats-btn.default-state:hover {
+  background-color: #f3f4f6 !important;
+  border-color: #9ca3af !important;
+  color: #111827 !important;
+}
+
+:host ::ng-deep .stats-btn.alert-active {
+  background-color: #fef3c7 !important;
+  border: 1px solid #fde68a !important;
+  color: #92400e !important;
+  box-shadow: 0 1px 3px 0 rgba(146, 64, 14, 0.1);
+}
+
+:host ::ng-deep .stats-btn.alert-active .p-button-icon {
+  color: #d97706 !important;
+}
+
+:host ::ng-deep .stats-btn.alert-active:hover {
+  background-color: #fde68a !important;
+  border-color: #fcd34d !important;
+  color: #78350f !important;
+}
+
+:host ::ng-deep .stats-dialog {
+  width: 600px;
+  max-width: 90vw;
+}
+
+.stats-alert-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  background-color: #fef3c7;
+  color: #92400e;
+  margin-bottom: 1rem;
+  border: 1px solid #fde68a;
+}
+
+.stats-alert-icon {
+  font-size: 1.25rem;
+  color: #d97706;
+}
+
+.stats-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.25rem;
+}
+
+.stats-summary-item {
+  font-size: 0.95rem;
+}
+
+.stats-label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.stats-value {
+  font-weight: 700;
+  color: #111827;
+}
+
+.stats-empty-cell {
+  text-align: center;
+  padding: 1rem;
+  color: #6b7280;
+}
+
 @media (max-width: 766px) {
   .grades-container {
     padding: 1rem;
@@ -288,15 +405,11 @@
   }
 
   :host ::ng-deep .course-buttons .p-button {
-    flex: initial !important;
-    text-align: center;
-  }
-
-  :host ::ng-deep .course-buttons .p-button {
     flex: 1;
     font-size: 0.8rem;
     padding: 0.5rem 0.25rem;
     justify-content: center;
+    text-align: center;
   }
 
   .students-table {

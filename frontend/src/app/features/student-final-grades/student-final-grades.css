@@ -68,15 +68,15 @@
 }
 
 :host ::ng-deep .semester-buttons .p-button-primary:not(.p-button-outlined) {
-  background-color: #2563eb !important;
-  border-color: #2563eb !important;
+  background-color: #3164e8 !important;
+  border-color: #3164e8 !important;
   color: #ffffff !important;
   box-shadow: none;
 }
 
 :host ::ng-deep .semester-buttons .p-button-primary:not(.p-button-outlined):hover {
-  background-color: #1d4ed8 !important;
-  border-color: #1d4ed8 !important;
+  background-color: #3164e8 !important;
+  border-color: #3164e8 !important;
 }
 
 :host ::ng-deep .grades-table th {
@@ -91,6 +91,25 @@
   margin: auto;
   max-width: 65%;
   font-size: 1.1rem;
+}
+
+:host ::ng-deep .grades-table .p-datatable {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+:host ::ng-deep .grades-table .p-datatable-thead > tr > th:first-child {
+  border-top-left-radius: 12px;
+}
+
+:host ::ng-deep .grades-table .p-datatable-thead > tr > th:last-child {
+  border-top-right-radius: 12px;
+}
+
+:host ::ng-deep .grades-table .p-datatable-tbody > tr:last-child > td {
+  border-bottom: none !important;
 }
 
 .col-course  {
