@@ -22,7 +22,12 @@
     </p-tag>
   </div>
 
-  <p-table class="grades-table" [loading]="loading()" [value]="filteredGrades()">
+  <p-table
+    class="grades-table"
+    [loading]="loading()"
+    [value]="filteredGrades()"
+    [scrollable]="true"
+    scrollHeight="44vh">
     <ng-template pTemplate="header">
       <tr>
       <tr>

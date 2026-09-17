@@ -1,6 +1,7 @@
 package cloudflight.integra.backend.exam;
 
 import cloudflight.integra.backend.exam.model.Exam;
+import cloudflight.integra.backend.studentexam.model.StudentExam;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,5 +40,11 @@ public class ExamService {
             repository.deleteById(id);
             return true;
         }).orElse(false);
+    }
+
+    public List<Exam> getByCourseId(UUID courseId) {
+        return repository.findAll().stream()
+            .filter(se -> courseId.equals(se.getCourseId()))
+            .toList();
     }
 }

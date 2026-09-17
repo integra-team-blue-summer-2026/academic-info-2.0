@@ -26,7 +26,7 @@ import { FinalGradeControllerService } from '../../core/api/services/finalGradeC
 })
 export class StudentFinalGradesComponent implements OnInit {
 
-  studentId: string = '30000000-0000-0000-0000-000000000004';
+  studentId: string = '30000000-0000-0000-0000-000000000001';
 
   allGrades = signal<StudentFinalGradeDto[]>([]);
   loading = signal<boolean>(false);

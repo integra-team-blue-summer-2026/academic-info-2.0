@@ -1,9 +1,9 @@
 package cloudflight.integra.backend.exam;
+
 import cloudflight.integra.backend.exam.model.Exam;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ExamServiceTest {
     @Autowired
     private ExamService service;
-
 
     @Test
     void testCreateAndGetById() {
@@ -36,6 +35,8 @@ public class ExamServiceTest {
 
     @Test
     void testGetAll() {
+        int initialCount = service.getAll().size();
+
         Exam exam1 = new Exam();
         exam1.setId(UUID.randomUUID());
         Exam exam2 = new Exam();
@@ -46,7 +47,7 @@ public class ExamServiceTest {
 
         List<Exam> allExams = service.getAll();
 
-        assertEquals(2, allExams.size());
+        assertEquals(initialCount + 2, allExams.size());
         assertTrue(allExams.stream().anyMatch(e -> e.getId().equals(exam1.getId())));
         assertTrue(allExams.stream().anyMatch(e -> e.getId().equals(exam2.getId())));
     }

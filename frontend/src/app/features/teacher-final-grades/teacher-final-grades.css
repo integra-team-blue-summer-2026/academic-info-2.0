@@ -71,6 +71,7 @@
 }
 
 .students-table {
+  display: block;
   margin-left: 15%;
   width: 50%;
   max-width: 50%;
@@ -78,10 +79,16 @@
 }
 
 :host ::ng-deep .students-table .p-datatable {
+  width: 100%;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #e2e8f0;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+:host ::ng-deep .students-table .p-datatable-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
 :host ::ng-deep .students-table .p-datatable-thead > tr > th:first-child {
@@ -94,6 +101,13 @@
 
 :host ::ng-deep .students-table .p-datatable-tbody > tr:last-child > td {
   border-bottom: none !important;
+}
+
+.student-name,
+:host ::ng-deep .students-table td.student-name,
+:host ::ng-deep .students-table td.student-name span {
+  font-weight: 700 !important;
+  color: #1e293b;
 }
 
 .student-row {
@@ -217,6 +231,7 @@
 
 .col-name {
   width: 50%;
+  font-weight: 700;
 }
 
 .col-group {
@@ -444,7 +459,7 @@
   }
 
   :host ::ng-deep .students-table .p-datatable-tbody > tr > td.student-name {
-    font-weight: 700;
+    font-weight: 700 !important;
     font-size: 1.05rem;
     border-bottom: 1px solid #f1f5f9 !important;
     padding-bottom: 0.4rem !important;

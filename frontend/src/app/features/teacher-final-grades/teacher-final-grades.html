@@ -50,6 +50,8 @@
       class="students-table"
       [loading]="loading()"
       [value]="filteredStudents()"
+      [scrollable]="true"
+      scrollHeight="44vh"
       dataKey="studentId">
 
       <ng-template pTemplate="header">

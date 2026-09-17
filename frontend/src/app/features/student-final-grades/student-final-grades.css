@@ -89,7 +89,7 @@
 
 .grades-table {
   margin: auto;
-  max-width: 65%;
+  max-width: 85%;
   font-size: 1.1rem;
 }
 
@@ -152,6 +152,7 @@
 
 .course-name{
   text-align: left;
+  font-weight: 700 !important;
 }
 
 .course-grade {
@@ -259,21 +260,21 @@
   }
 
   :host ::ng-deep .grades-table .p-datatable-tbody > tr > td.course-completion-date:nth-child(2)::before {
-    content: "An universitar";
+    content: "Academic Year";
     color: #64748b;
     font-size: 0.85rem;
     text-align: left;
   }
 
   :host ::ng-deep .grades-table .p-datatable-tbody > tr > td.credits-text::before {
-    content: "Credite";
+    content: "Credits";
     color: #64748b;
     font-size: 0.85rem;
     text-align: left;
   }
 
   :host ::ng-deep .grades-table .p-datatable-tbody > tr > td.course-completion-date:nth-child(4)::before {
-    content: "Dată promovare";
+    content: "Completion Date";
     color: #64748b;
     font-size: 0.85rem;
     text-align: left;
