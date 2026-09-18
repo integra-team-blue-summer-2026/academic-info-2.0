@@ -2,11 +2,11 @@ package cloudflight.integra.backend.advisorrequest;
 
 import cloudflight.integra.backend.advisorrequest.model.AdvisorRequest;
 import cloudflight.integra.backend.advisorrequest.model.AdvisorRequestStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@RestController
+@Repository
 public class AdvisorRequestRepository {
     private final Map<UUID, AdvisorRequest> requests = new HashMap<>();
 
