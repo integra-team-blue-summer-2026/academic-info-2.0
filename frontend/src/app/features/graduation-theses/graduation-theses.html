@@ -1,0 +1,408 @@
+<section class="graduation-theses-container">
+
+  <!-- Header -->
+  <div class="details-header">
+    <div>
+      <h1>Graduation Theses</h1>
+
+      <p class="page-subtitle">
+        Review the graduation theses uploaded by your students.
+      </p>
+    </div>
+  </div>
+
+  <!-- Theses -->
+  <section class="theses-section">
+
+    <div class="section-header">
+      <div class="section-title-wrapper">
+        <div>
+          <h2>Student Theses</h2>
+
+          @if (!loading) {
+          <span class="section-count">
+              {{ theses.length }}
+              thesis{{ theses.length === 1 ? '' : 'es' }}
+            </span>
+          }
+        </div>
+      </div>
+    </div>
+
+    @if (loading) {
+
+    <div class="loading-message">
+      Loading graduation theses...
+    </div>
+
+    } @else {
+
+    <div class="table-wrapper">
+
+      <p-table
+        [value]="theses"
+        class="details-table">
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>No.</th>
+            <th>Student</th>
+            <th>Title</th>
+            <th>File</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+
+        <ng-template
+          pTemplate="body"
+          let-thesis
+          let-rowIndex="rowIndex">
+
+          <tr>
+
+            <td class="number-cell">
+              {{ rowIndex + 1 }}
+            </td>
+
+            <td>
+              {{ getStudentName(thesis.studentId) }}
+            </td>
+
+            <td>
+              {{ thesis.title }}
+            </td>
+
+            <td>
+              {{ thesis.fileName || 'No file available.' }}
+            </td>
+
+            <td>
+              <p-tag
+                [value]="thesis.status || 'UNCHECKED'"
+                [severity]="
+                    thesis.status === 'CHECKED'
+                      ? 'success'
+                      : thesis.status === 'REJECTED'
+                        ? 'danger'
+                        : 'warn'
+                  ">
+              </p-tag>
+            </td>
+
+            <td>
+              <div class="table-actions">
+
+                <p-button
+                  label="View Thesis"
+                  icon="pi pi-eye"
+                  severity="secondary"
+                  (onClick)="openThesis(thesis)">
+                </p-button>
+
+                @if (thesis.status === 'UNCHECKED') {
+
+                <p-button
+                  label="Admit"
+                  icon="pi pi-check"
+                  severity="success"
+                  [disabled]="!hasOpenedThesis(thesis)"
+                  (onClick)="admit(thesis)">
+                </p-button>
+
+                <p-button
+                  label="Reject"
+                  icon="pi pi-times"
+                  severity="danger"
+                  [disabled]="!hasOpenedThesis(thesis)"
+                  (onClick)="openRejectDialog(thesis)">
+                </p-button>
+
+                }
+
+                @if (thesis.status === 'REJECTED') {
+
+                <p-button
+                  label="View Message"
+                  icon="pi pi-comment"
+                  severity="secondary"
+                  (onClick)="openMessageDialog(thesis)">
+                </p-button>
+
+                }
+
+              </div>
+            </td>
+
+          </tr>
+
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td
+              colspan="6"
+              class="empty-message">
+
+              No graduation theses are available for review.
+
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+
+    </div>
+
+    }
+
+  </section>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- View Thesis Dialog -->
+<!-- ========================================================= -->
+
+@if (thesisDialogVisible && selectedThesis) {
+
+<div class="modal-backdrop">
+
+  <div class="modal-dialog">
+
+    <div class="modal-header">
+
+      <div>
+        <h2>Graduation Thesis</h2>
+
+        <p>
+          Review the thesis before making a decision.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="modal-close-button"
+        (click)="closeThesisDialog()">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <div class="modal-body">
+
+      <div class="thesis-details">
+
+        <div class="form-field">
+          <strong>Student</strong>
+          <span>
+              {{ getStudentName(selectedThesis.studentId) }}
+            </span>
+        </div>
+
+        <div class="form-field">
+          <strong>Title</strong>
+          <span>
+              {{ selectedThesis.title }}
+            </span>
+        </div>
+
+        <div class="form-field">
+          <strong>File</strong>
+          <span>
+              {{ selectedThesis.fileName || 'No file available.' }}
+            </span>
+        </div>
+
+        <div class="form-field">
+          <strong>Status</strong>
+          <span>
+              {{ selectedThesis.status || 'UNCHECKED' }}
+            </span>
+        </div>
+
+        @if (!selectedThesis.fileName) {
+        <p class="empty-message">
+          No thesis file is currently available.
+        </p>
+        }
+
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+
+      <p-button
+        label="Close"
+        severity="secondary"
+        (onClick)="closeThesisDialog()">
+      </p-button>
+
+    </div>
+
+  </div>
+
+</div>
+
+}
+
+
+<!-- ========================================================= -->
+<!-- Reject Thesis Dialog -->
+<!-- ========================================================= -->
+
+@if (rejectDialogVisible) {
+
+<div class="modal-backdrop">
+
+  <div class="modal-dialog">
+
+    <div class="modal-header">
+
+      <div>
+        <h2>Reject Thesis</h2>
+
+        <p>
+          Write a message explaining why the thesis was rejected.
+          This message will be visible to the student.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="modal-close-button"
+        (click)="closeRejectDialog()">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <div class="modal-body">
+
+      <div class="form-field">
+
+        <label for="rejectionMessage">
+          Rejection Message
+        </label>
+
+        <textarea
+          id="rejectionMessage"
+          class="form-control rejection-textarea"
+          rows="6"
+          [(ngModel)]="rejectionMessage"
+          placeholder="Write the reason for rejection...">
+          </textarea>
+
+        @if (!rejectionMessage.trim()) {
+        <small>
+          A rejection message is required.
+        </small>
+        }
+
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+
+      <p-button
+        label="Cancel"
+        severity="secondary"
+        (onClick)="closeRejectDialog()">
+      </p-button>
+
+      <p-button
+        label="Reject Thesis"
+        icon="pi pi-times"
+        severity="danger"
+        [disabled]="!rejectionMessage.trim()"
+        (onClick)="reject()">
+      </p-button>
+
+    </div>
+
+  </div>
+
+</div>
+
+}
+
+
+<!-- ========================================================= -->
+<!-- View Rejection Message Dialog -->
+<!-- ========================================================= -->
+
+@if (messageDialogVisible && selectedThesis) {
+
+<div class="modal-backdrop">
+
+  <div class="modal-dialog">
+
+    <div class="modal-header">
+
+      <div>
+        <h2>Rejection Message</h2>
+
+        <p>
+          Message sent to the student when the thesis was rejected.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="modal-close-button"
+        (click)="closeMessageDialog()">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <div class="modal-body">
+
+      <div class="form-field">
+        <strong>Student</strong>
+        <span>
+            {{ getStudentName(selectedThesis.studentId) }}
+          </span>
+      </div>
+
+      <div class="form-field">
+        <strong>Thesis</strong>
+        <span>
+            {{ selectedThesis.title }}
+          </span>
+      </div>
+
+      <div class="form-field">
+        <strong>Message</strong>
+
+        <p class="rejection-message">
+          {{ getRejectionMessage() }}
+        </p>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+
+      <p-button
+        label="Close"
+        severity="secondary"
+        (onClick)="closeMessageDialog()">
+      </p-button>
+
+    </div>
+
+  </div>
+
+</div>
+
+}

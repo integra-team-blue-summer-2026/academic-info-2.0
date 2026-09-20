@@ -3,8 +3,7 @@ import { Home } from './features/home/home';
 import { CourseList } from './features/courses/course-list/course-list';
 import { CourseDetails } from './features/courses/course-details/course-details';
 import { StudentFinalGradesComponent } from './features/student-final-grades/student-final-grades';
-import {TeacherFinalGrades} from './features/teacher-final-grades/teacher-final-grades';
-import { FinalGradesComponent } from './features/final-grades/final-grades';
+import { TeacherFinalGrades } from './features/teacher-final-grades/teacher-final-grades';
 import { StudentOverview } from './features/overviews/student-overview/student-overview';
 import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
 
@@ -34,13 +33,13 @@ export const routes: Routes = [
   },
   {
     path: 'my-grades',
-    component: StudentFinalGradesComponent
+    component: StudentFinalGradesComponent,
   },
   {
     path: 'final-grades',
-    component: TeacherFinalGrades
-    path: 'final-grades',
-    component: FinalGradesComponent
+    component: TeacherFinalGrades,
+  },
+  {
     path: 'student/courses',
     component: StudentOverview,
   },
@@ -53,5 +52,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/room-availability/room-availability')
         .then(m => m.RoomAvailability),
+  },
+  {
+    path: 'graduation-theses',
+    loadComponent: () =>
+      import('./features/graduation-theses/graduation-theses')
+        .then(m => m.GraduationTheses),
   },
 ];
