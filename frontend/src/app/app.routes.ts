@@ -47,5 +47,11 @@ export const routes: Routes = [
   {
     path: 'teacher/courses',
     component: TeacherOverview,
-  }
+  },
+  {
+    path: 'room-availability',
+    loadComponent: () =>
+      import('./features/room-availability/room-availability')
+        .then(m => m.RoomAvailability),
+  },
 ];
