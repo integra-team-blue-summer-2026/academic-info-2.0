@@ -33,7 +33,7 @@ export class TeacherOverview implements OnInit {
   }
 
   loadCourses(): void {
-    this.courseService.getAll4().subscribe({
+    this.courseService.getAllCourses().subscribe({
       next: (courses) => {
         this.courses = courses;
         this.cdr.detectChanges();
@@ -48,3 +48,4 @@ export class TeacherOverview implements OnInit {
     return this.courses.length;
   }
 }
+
