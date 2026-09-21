@@ -1,0 +1,106 @@
+:host {
+  display: block;
+}
+
+.rooms-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.rooms-toolbar h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  width: 30%;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  width: 25%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  width: 25%;
+}
+
+.actions-column {
+  width: 20%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.row-actions {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: flex-end;
+}
+
+.search-input {
+  width: 20rem;
+  max-width: 100%;
+}
+
+.room-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.room-form label {
+  margin-top: 0.75rem;
+  font-weight: 500;
+}
+
+.availability-form {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+}
+
+.availability-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.availability-field label {
+  font-weight: 500;
+}
+
+.availability-field p-select,
+.availability-field input {
+  width: 100%;
+}
+
+.availability-add-button {
+  display: flex;
+  align-items: flex-end;
+}
+
+.availability-table {
+  margin-top: 1rem;
+}
+
+.availability-actions {
+  width: 8rem;
+  text-align: right;
+}
+
+@media (max-width: 800px) {
+  .availability-form {
+    grid-template-columns: 1fr;
+  }
+
+  .availability-add-button {
+    justify-content: flex-start;
+  }
+}
