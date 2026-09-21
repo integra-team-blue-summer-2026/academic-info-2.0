@@ -1,0 +1,114 @@
+<div class="thesis-page">
+  <div class="page-header">
+    <h1>Graduation Thesis</h1>
+
+    <p>
+      Upload your graduation thesis and keep track of its review status.
+    </p>
+  </div>
+
+  @if (loading()) {
+  <div class="loading-container">
+    <span>Loading thesis information...</span>
+  </div>
+  } @else {
+  @if (errorMessage()) {
+  <p-message
+    severity="error"
+    [text]="errorMessage()!"
+  />
+  }
+
+  <p-card>
+    <div class="section">
+      <h2>Thesis submission</h2>
+
+      @if (thesis()) {
+      <div class="status-row">
+        <span class="status-label">Status:</span>
+
+        <p-tag
+          [value]="getStatusLabel(thesis()!.status)"
+          [severity]="getStatusSeverity(thesis()!.status)"
+        />
+      </div>
+
+      <div class="file-information">
+        <span class="file-label">Uploaded file:</span>
+
+        <span class="file-name">
+              {{ thesis()!.fileName }}
+            </span>
+      </div>
+
+      @if (thesis()!.status === 'REJECTED') {
+      <div class="rejection-box">
+        <h3>Rejection message</h3>
+
+        <p>
+          {{ thesis()!.rejectionMessage }}
+        </p>
+
+        <small>
+          Please make the requested changes and upload a new version.
+        </small>
+      </div>
+      }
+      } @else {
+      <div class="no-thesis">
+        <p>
+          You have not uploaded your thesis yet.
+        </p>
+      </div>
+      }
+
+      <div class="upload-section">
+        <label
+          for="thesis-file"
+          class="file-label"
+        >
+          Select your thesis
+        </label>
+
+        <input
+          id="thesis-file"
+          type="file"
+          accept=".pdf,application/pdf"
+          (change)="onFileSelected($event)"
+        />
+
+        @if (selectedFile) {
+        <div class="selected-file">
+          Selected file:
+          <strong>{{ selectedFile.name }}</strong>
+        </div>
+        }
+
+        <p-button
+          label="Upload Thesis"
+          icon="pi pi-upload"
+          [disabled]="!selectedFile || uploading()"
+          [loading]="uploading()"
+          (onClick)="upload()"
+        />
+      </div>
+    </div>
+
+    <div class="turnitin-section">
+      <h2>Check your thesis</h2>
+
+      <p>
+        You can use Turnitin to check your thesis before submitting it.
+      </p>
+
+      <a
+        href="https://www.turnitin.com.au/login"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Open Turnitin
+      </a>
+    </div>
+  </p-card>
+  }
+</div>
