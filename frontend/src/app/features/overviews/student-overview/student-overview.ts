@@ -31,7 +31,7 @@ export class StudentOverview implements OnInit {
   }
 
   loadCourses(): void {
-    this.courseService.getAll4().subscribe({
+    this.courseService.getAllCourses().subscribe({
       next: (courses) => {
         this.courses = courses;
         this.cdr.detectChanges();

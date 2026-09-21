@@ -8,6 +8,7 @@ import { FinalGradesComponent } from './features/final-grades/final-grades';
 import {Exams} from './features/exams/exams';
 import { StudentOverview } from './features/overviews/student-overview/student-overview';
 import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
+import { StudentThesis } from './features/student-thesis/student-thesis';
 
 export const routes: Routes = [
   {
@@ -51,9 +52,11 @@ export const routes: Routes = [
   {
     path: 'final-grades',
     component: TeacherFinalGrades
+  },
+  {
     path: 'final-grades',
-    component: FinalGradesComponent,
-    },
+    component: FinalGradesComponent
+  },
   {
     path: 'student/courses',
     component: StudentOverview,
@@ -63,6 +66,9 @@ export const routes: Routes = [
     component: TeacherOverview,
   },
   {
+    path: 'student/thesis',
+    component: StudentThesis
+  }
     path: 'room-availability',
     loadComponent: () =>
       import('./features/room-availability/room-availability')

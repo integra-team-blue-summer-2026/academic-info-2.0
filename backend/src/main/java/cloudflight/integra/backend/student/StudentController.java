@@ -28,7 +28,8 @@ public class StudentController {
         return service.getAll().stream().map(mapper::toDto).toList();
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(operationId = "getStudentsById")
+    @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public StudentDto getById(@PathVariable UUID id) {
         return service.getById(id).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

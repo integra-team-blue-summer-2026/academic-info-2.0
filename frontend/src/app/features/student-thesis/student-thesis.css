@@ -1,0 +1,125 @@
+.thesis-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.5rem;
+}
+
+.page-header p {
+  margin: 0;
+  color: #666;
+}
+
+.loading-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.section h2,
+.turnitin-section h2 {
+  margin: 0;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.status-label,
+.file-label {
+  font-weight: 600;
+}
+
+.file-information {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #f7f7f7;
+}
+
+.file-name {
+  word-break: break-word;
+}
+
+.no-thesis {
+  padding: 1rem;
+  border-radius: 8px;
+  background: #f7f7f7;
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.upload-section input[type='file'] {
+  width: 100%;
+}
+
+.selected-file {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  background: #f7f7f7;
+}
+
+.rejection-box {
+  padding: 1rem;
+  border-left: 4px solid #dc2626;
+  background: #fef2f2;
+  border-radius: 4px;
+}
+
+.rejection-box h3 {
+  margin: 0 0 0.75rem;
+}
+
+.rejection-box p {
+  margin: 0 0 0.75rem;
+  white-space: pre-wrap;
+}
+
+.rejection-box small {
+  color: #666;
+}
+
+.turnitin-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.turnitin-section p {
+  margin: 0;
+}
+
+.turnitin-section a {
+  align-self: flex-start;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.turnitin-section a:hover {
+  text-decoration: underline;
+}
