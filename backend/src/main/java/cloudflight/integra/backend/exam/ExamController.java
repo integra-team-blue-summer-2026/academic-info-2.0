@@ -1,6 +1,7 @@
 package cloudflight.integra.backend.exam;
 
 import cloudflight.integra.backend.exam.model.ExamDto;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,28 +23,33 @@ public class ExamController {
         this.mapper = mapper;
     }
 
+    @Operation(operationId = "getAllExams")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ExamDto> getAll() {
         return  service.getAll().stream().map(mapper::toDto).toList();
     }
 
-    @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(operationId = "getExamById")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ExamDto getById(@PathVariable UUID id) {
         return service.getById(id).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping
+    @Operation(operationId = "createExam")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExamDto> create(@RequestBody ExamDto examDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(service.create(mapper.toEntity(examDto))));
     }
 
-    @PutMapping("/{id}")
+    @Operation(operationId = "updateExam")
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ExamDto update(@PathVariable UUID id, @RequestBody ExamDto dto) {
         return service.update(id, mapper.toEntity(dto)).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @Operation(operationId = "deleteExam")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
         service.delete(id);

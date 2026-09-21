@@ -31,4 +31,14 @@ public class ExamRepository {
     public void deleteById(UUID id) {
         exams.remove(id);
     }
+
+    public List<Exam> findByGroup(String group) {
+        return exams.values().stream()
+            .filter(e -> group.equals(e.getGroup())).toList();
+    }
+
+    public List<Exam> findByRoom(String room) {
+        return exams.values().stream()
+            .filter(e -> room.equals(e.getRoom())).toList();
+    }
 }
