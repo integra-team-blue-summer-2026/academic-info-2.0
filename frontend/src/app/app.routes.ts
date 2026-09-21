@@ -38,9 +38,11 @@ export const routes: Routes = [
   },
   {
     path: 'final-grades',
-    component: TeacherFinalGrades
+    component: TeacherFinalGrades},
+  {
     path: 'final-grades',
-    component: FinalGradesComponent
+    component: FinalGradesComponent},
+  {
     path: 'student/courses',
     component: StudentOverview,
   },
