@@ -5,6 +5,7 @@ import { CourseDetails } from './features/courses/course-details/course-details'
 import { StudentFinalGradesComponent } from './features/student-final-grades/student-final-grades';
 import {TeacherFinalGrades} from './features/teacher-final-grades/teacher-final-grades';
 import { FinalGradesComponent } from './features/final-grades/final-grades';
+import {Exams} from './features/exams/exams';
 import { StudentOverview } from './features/overviews/student-overview/student-overview';
 import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
 import { StudentThesis } from './features/student-thesis/student-thesis';
@@ -15,9 +16,20 @@ export const routes: Routes = [
     component: Home,
   },
   {
+    path: 'login',
+    loadComponent: () => import('./features/auth/login/login').then(m => m.Login)
+  },
+  {
+    path: 'signup',
+    loadComponent: () => import('./features/auth/signup/signup').then(m => m.Signup)
+  },
+  {
     path: 'teachers',
-    loadComponent: () =>
-      import('./features/teachers/teachers').then(m => m.Teachers),
+    loadComponent: () => import('./features/teachers/teachers').then(m => m.Teachers),
+  },
+  {
+    path: 'exams',
+    component: Exams,
   },
   {
     path: 'courses',

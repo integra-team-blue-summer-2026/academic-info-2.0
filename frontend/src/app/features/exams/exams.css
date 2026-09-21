@@ -3,20 +3,26 @@
   padding: 2rem;
 }
 
-.teachers-toolbar {
+.exams-toolbar {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 1.5rem;
   width: 100%;
 }
 
-.teachers-toolbar h2 {
+.exams-toolbar h2 {
   margin: 0;
   font-family: inherit;
   font-size: 2rem;
   font-weight: 600;
   color: #18233a;
+}
+
+:host ::ng-deep .p-datatable {
+  max-width: 100%;
+  margin: auto;
+  font-size: 1.1rem;
 }
 
 :host ::ng-deep .p-datatable th {
@@ -42,59 +48,31 @@
   border-color: #1d4ed8 !important;
 }
 
-
-th:nth-child(1),
-td:nth-child(1),
-th:nth-child(2),
-td:nth-child(2) {
-  width: 22%;
-}
-
-th:nth-child(3),
-td:nth-child(3) {
-  width: 18%;
-}
-
-th:nth-child(4),
-td:nth-child(4) {
-  width: 26%;
-}
-
-.actions-column {
-  width: 12%;
+.chosen {
+  color: #15803d;
+  font-weight: 600;
   white-space: nowrap;
-  text-align: right;
 }
 
-.row-actions {
-  display: flex;
-  gap: 0.25rem;
-  justify-content: flex-end;
-}
-
-.search-input {
-  width: 20rem;
-  max-width: 100%;
-}
-
-.teacher-form {
+.exam-form {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
 }
 
-.teacher-form label {
-  margin-top: 0.75rem;
+.exam-form label {
   font-weight: 500;
   color: #18233a;
+  margin-top: 0.75rem;
 }
 
-.generated-password {
-  font-family: monospace;
-  font-size: 1.1rem;
-  padding: 0.75rem;
-  margin-top: 0.5rem;
-  border: 1px solid var(--p-content-border-color);
-  border-radius: 6px;
-  word-break: break-all;
+.exam-form label:first-child {
+  margin-top: 0;
+}
+
+.exam-form :host ::ng-deep .p-inputtext,
+.exam-form :host ::ng-deep .p-select,
+.exam-form :host ::ng-deep .p-datepicker,
+.exam-form :host ::ng-deep .p-inputnumber {
+  width: 100%;
 }

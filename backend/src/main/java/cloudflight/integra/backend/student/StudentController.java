@@ -36,7 +36,7 @@ public class StudentController {
     }
 
     @Operation(operationId = "createStudent")
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StudentDto> create(@RequestBody StudentDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(service.create(mapper.toEntity(dto))));
     }
@@ -49,7 +49,7 @@ public class StudentController {
     }
 
     @Operation(operationId = "deleteStudent")
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(@PathVariable UUID id) {
         service.delete(id);
     }

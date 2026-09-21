@@ -1,0 +1,171 @@
+<p-toast />
+
+@if (isTeacher()) {
+
+<div class="exams-toolbar">
+  <h2>Exams</h2>
+  <p-button label="Schedule exam" icon="pi pi-plus" (onClick)="openCreateDialog()" />
+</div>
+
+<p-table
+  [value]="exams()"
+  [loading]="loading()"
+  [paginator]="true"
+  [rows]="10"
+>
+  <ng-template #header>
+    <tr>
+      <th>Course</th>
+      <th>Group</th>
+      <th>Type</th>
+      <th>Format</th>
+      <th>Room</th>
+      <th>Duration</th>
+      <th>Primary date</th>
+      <th>Secondary date</th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-exam>
+    <tr>
+      <td>{{ courseName(exam.courseId) }}</td>
+      <td>{{ exam.group }}</td>
+      <td>{{ exam.examType }}</td>
+      <td>{{ exam.examFormat }}</td>
+      <td>{{ exam.room }}</td>
+      <td>{{ exam.duration }} min</td>
+      <td>{{ formatDate(exam.primaryDate) }}</td>
+      <td>{{ formatDate(exam.secondaryDate) }}</td>
+    </tr>
+  </ng-template>
+
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="8">No exams found.</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog
+  header="Schedule exam"
+  [visible]="formDialogVisible()"
+  (onHide)="closeFormDialog()"
+  [modal]="true"
+  [style]="{ width: '32rem' }"
+>
+  <div class="exam-form" [formGroup]="form">
+    <label for="courseId">Course ID</label>
+    <p-select
+      id="courseId"
+      formControlName="courseId"
+      [options]="teacherCourses()"
+      optionLabel="courseName"
+      optionValue="id"
+    />
+
+    <label for="examType">Type</label>
+    <p-select
+      id="examType"
+      formControlName="examType"
+      [options]="examTypes"
+      optionLabel="label"
+      optionValue="value"
+    />
+
+    <label for="examFormat">Format</label>
+    <p-select
+      id="examFormat"
+      formControlName="examFormat"
+      [options]="examFormats"
+      optionLabel="label"
+      optionValue="value"
+    />
+
+    <label for="group">Group</label>
+    <input pInputText id="group" formControlName="group" />
+
+    <label for="room">Room</label>
+    <input pInputText id="room" formControlName="room" />
+
+    <label for="duration">Duration (minutes)</label>
+    <p-inputNumber id="duration" formControlName="duration" />
+
+    <label for="primaryDate">Primary date</label>
+    <p-datepicker
+      id="primaryDate"
+      formControlName="primaryDate"
+      [showTime]="true"
+      dateFormat="yy-mm-dd"
+    />
+
+    <label for="secondaryDate">Secondary date</label>
+    <p-datepicker
+      id="secondaryDate"
+      formControlName="secondaryDate"
+      [showTime]="true"
+      dateFormat="yy-mm-dd"
+    />
+  </div>
+
+  <ng-template #footer>
+    <p-button label="Cancel" severity="secondary" [outlined]="true" (onClick)="closeFormDialog()" />
+    <p-button label="Save" (onClick)="save()" />
+  </ng-template>
+</p-dialog>
+
+} @else {
+
+  <div class="exams-toolbar">
+    <h2>My exams</h2>
+  </div>
+
+  <p-table [value]="studentExams()" [paginator]="true" [rows]="10">
+    <ng-template #header>
+      <tr>
+        <th>Course</th><th>Type</th><th>Format</th><th>Room</th><th>Duration</th>
+        <th>Primary date</th><th>Secondary date</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-exam>
+      <tr>
+        <td>{{ courseName(exam.courseId) }}</td>
+        <td>{{ exam.examType }}</td>
+        <td>{{ exam.examFormat }}</td>
+        <td>{{ exam.room }}</td>
+        <td>{{ exam.duration }} min</td>
+
+        <td>
+          {{ formatDate(exam.primaryDate) }}
+          @if (chosenSlotFor(exam.id) === 'PRIMARY') {
+            <span class="chosen"> — Chosen ✓</span>
+          } @else {
+            <p-button label="Sign up" size="small"
+                      [disabled]="!!chosenSlotFor(exam.id)"
+                      (onClick)="register(exam, 'PRIMARY')" />
+          }
+        </td>
+
+        <td>
+          @if (exam.secondaryDate) {
+            {{ formatDate(exam.secondaryDate) }}
+            @if (chosenSlotFor(exam.id) === 'SECONDARY') {
+              <span class="chosen"> — Chosen ✓</span>
+            } @else {
+              <p-button label="Sign up" size="small"
+                        [disabled]="!!chosenSlotFor(exam.id)"
+                        (onClick)="register(exam, 'SECONDARY')" />
+            }
+          } @else {
+            —
+          }
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr><td colspan="7">No exams found.</td></tr>
+    </ng-template>
+  </p-table>
+
+}
