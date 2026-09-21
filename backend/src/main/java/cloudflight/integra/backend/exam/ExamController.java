@@ -30,20 +30,20 @@ public class ExamController {
     }
 
     @Operation(operationId = "getExamById")
-    @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ExamDto getById(@PathVariable UUID id) {
         return service.getById(id).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @Operation(operationId = "createExam")
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExamDto> create(@RequestBody ExamDto examDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(service.create(mapper.toEntity(examDto))));
     }
 
     @Operation(operationId = "updateExam")
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ExamDto update(@PathVariable UUID id, @RequestBody ExamDto dto) {
         return service.update(id, mapper.toEntity(dto)).map(mapper::toDto)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
