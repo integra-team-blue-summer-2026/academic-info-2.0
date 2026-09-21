@@ -1,0 +1,270 @@
+<p-toast></p-toast>
+<p-confirmdialog></p-confirmdialog>
+
+<div class="rooms-toolbar">
+  <h2>Room Availability</h2>
+
+  <p-button
+    label="Add room"
+    icon="pi pi-plus"
+    (onClick)="openCreateRoomDialog()"
+  ></p-button>
+</div>
+
+<p-table
+  #dt
+  [value]="rooms()"
+  [loading]="loading()"
+  [globalFilterFields]="globalFilterFields"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 50]"
+  dataKey="id"
+>
+  <ng-template #caption>
+    <input
+      pInputText
+      type="text"
+      class="search-input"
+      placeholder="Search all columns"
+      (input)="applyGlobalFilter(dt, $event)"
+    />
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th pSortableColumn="roomName">
+        Room name
+        <p-sortIcon field="roomName"></p-sortIcon>
+      </th>
+
+      <th pSortableColumn="zone">
+        Zone
+        <p-sortIcon field="zone"></p-sortIcon>
+      </th>
+
+      <th>Availability</th>
+
+      <th class="actions-column">Actions</th>
+    </tr>
+
+    <tr>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="roomName"
+          [showMenu]="false"
+        ></p-columnFilter>
+      </th>
+
+      <th>
+        <p-columnFilter
+          type="text"
+          field="zone"
+          [showMenu]="false"
+        ></p-columnFilter>
+      </th>
+
+      <th></th>
+      <th></th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-room>
+    <tr>
+      <td>{{ room.roomName }}</td>
+
+      <td>{{ room.zone }}</td>
+
+      <td>
+        <p-button
+          [label]="'Manage (' + getAvailabilityCount(room) + ')'"
+          icon="pi pi-calendar"
+          [outlined]="true"
+          (onClick)="openAvailabilityDialog(room)"
+        ></p-button>
+      </td>
+
+      <td class="actions-column">
+        <div class="row-actions">
+          <p-button
+            icon="pi pi-pencil"
+            [text]="true"
+            ariaLabel="Edit room"
+            (onClick)="openEditRoomDialog(room)"
+          ></p-button>
+
+          <p-button
+            icon="pi pi-trash"
+            [text]="true"
+            severity="danger"
+            ariaLabel="Delete room"
+            (onClick)="confirmDeleteRoom(room)"
+          ></p-button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="4">No rooms found.</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+<!-- ADD / EDIT ROOM -->
+
+<p-dialog
+  [header]="roomDialogHeader()"
+  [visible]="roomDialogVisible()"
+  (visibleChange)="onRoomDialogVisibleChange($event)"
+  [modal]="true"
+  [style]="{ width: '30rem' }"
+>
+  <div
+    class="room-form"
+    [formGroup]="roomForm"
+  >
+    <label for="roomName">Room name</label>
+
+    <input
+      pInputText
+      id="roomName"
+      formControlName="roomName"
+    />
+
+    <label for="zone">Zone</label>
+
+    <input
+      pInputText
+      id="zone"
+      formControlName="zone"
+    />
+  </div>
+
+  <ng-template #footer>
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      [outlined]="true"
+      (onClick)="closeRoomDialog()"
+    ></p-button>
+
+    <p-button
+      label="Save"
+      [loading]="savingRoom()"
+      (onClick)="saveRoom()"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+
+<!-- ROOM AVAILABILITY -->
+
+<p-dialog
+  [header]="availabilityDialogHeader()"
+  [visible]="availabilityDialogVisible()"
+  (visibleChange)="onAvailabilityDialogVisibleChange($event)"
+  [modal]="true"
+  [style]="{ width: '50rem' }"
+>
+  <div
+    class="availability-form"
+    [formGroup]="availabilityForm"
+  >
+    <div class="availability-field">
+      <label>Day</label>
+
+      <p-select
+        inputId="dayOfWeek"
+        formControlName="dayOfWeek"
+        [options]="days"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select day"
+      ></p-select>
+    </div>
+
+    <div class="availability-field">
+      <label for="startTime">Start time</label>
+
+      <input
+        pInputText
+        id="startTime"
+        type="time"
+        formControlName="startTime"
+      />
+    </div>
+
+    <div class="availability-field">
+      <label for="endTime">End time</label>
+
+      <input
+        pInputText
+        id="endTime"
+        type="time"
+        formControlName="endTime"
+      />
+    </div>
+
+    <div class="availability-add-button">
+      <p-button
+        label="Add"
+        icon="pi pi-plus"
+        [loading]="savingAvailability()"
+        (onClick)="saveAvailability()"
+      ></p-button>
+    </div>
+  </div>
+
+  <p-table
+    [value]="getRoomAvailabilities()"
+    class="availability-table"
+  >
+    <ng-template #header>
+      <tr>
+        <th>Day</th>
+        <th>Start time</th>
+        <th>End time</th>
+        <th class="availability-actions">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-availability>
+      <tr>
+        <td>{{ formatDay(availability.dayOfWeek) }}</td>
+        <td>{{ formatTime(availability.startTime) }}</td>
+        <td>{{ formatTime(availability.endTime) }}</td>
+
+        <td class="availability-actions">
+          <p-button
+            icon="pi pi-trash"
+            [text]="true"
+            severity="danger"
+            ariaLabel="Delete availability"
+            (onClick)="confirmDeleteAvailability(availability)"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="4">
+          No availability intervals configured.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <ng-template #footer>
+    <p-button
+      label="Close"
+      severity="secondary"
+      [outlined]="true"
+      (onClick)="closeAvailabilityDialog()"
+    ></p-button>
+  </ng-template>
+</p-dialog>

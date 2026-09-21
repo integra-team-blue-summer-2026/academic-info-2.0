@@ -1,4 +1,4 @@
-package cloudflight.integra.backend.exam;
+package cloudflight.integra.backend.finalgrade;
 
 import cloudflight.integra.backend.finalgrade.FinalGradeRepository;
 import cloudflight.integra.backend.finalgrade.model.FinalGrade;
@@ -44,5 +44,13 @@ public class FinalGradeService {
 
     public List<FinalGrade> getByStudentId(UUID  studentId) {
         return repository.findByStudentId(studentId);
+    }
+
+    public List<FinalGrade> getByCourseId(UUID  courseId) {
+        return repository.findByCourseId(courseId);
+    }
+
+    public Optional<FinalGrade> findByStudentIdAndCourseId(UUID studentId, UUID courseId) {
+        return repository.findByStudentIdAndCourseId(studentId, courseId);
     }
 }

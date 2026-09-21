@@ -1,6 +1,6 @@
-package cloudflight.integra.backend.course;
+package cloudflight.integra.backend.room;
 
-import cloudflight.integra.backend.course.model.CourseDto;
+import cloudflight.integra.backend.room.model.RoomDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,59 +17,65 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/courses")
+@RequestMapping("/api/rooms")
 @CrossOrigin(origins = "http://localhost:4200")
-public class CourseController {
+public class RoomController {
 
-    private final CourseService service;
-    private final CourseMapper mapper;
+    private final RoomService service;
+    private final RoomMapper mapper;
 
-    public CourseController(CourseService service, CourseMapper mapper) {
+    public RoomController(RoomService service, RoomMapper mapper) {
         this.service = service;
         this.mapper = mapper;
     }
 
-    @Operation(operationId = "getAllCourses")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(
+        summary = "Get all rooms",
+        operationId = "getAllRooms"
+    )
     @ApiResponses({
         @ApiResponse(
             responseCode = "200",
-            description = "All courses",
+            description = "All rooms",
             content = @Content(
                 mediaType = MediaType.APPLICATION_JSON_VALUE,
                 array = @ArraySchema(
-                    schema = @Schema(implementation = CourseDto.class)
+                    schema = @Schema(implementation = RoomDto.class)
                 )
             )
         )
     })
-    public List<CourseDto> getAll() {
+    public List<RoomDto> getAll() {
         return service.getAll()
             .stream()
             .map(mapper::toDto)
             .toList();
     }
 
-    @Operation(operationId = "getCourseById")
     @GetMapping(
         value = "/{id}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @Operation(
+        summary = "Get room by id",
+        operationId = "getRoomById"
+    )
     @ApiResponses({
         @ApiResponse(
             responseCode = "200",
-            description = "Course found",
+            description = "Room found",
             content = @Content(
                 mediaType = MediaType.APPLICATION_JSON_VALUE,
-                schema = @Schema(implementation = CourseDto.class)
+                schema = @Schema(implementation = RoomDto.class)
             )
         ),
         @ApiResponse(
             responseCode = "404",
-            description = "Course not found"
+            description = "Room not found"
         )
     })
-    public CourseDto getById(@PathVariable UUID id) {
+    public RoomDto getById(@PathVariable UUID id) {
         return service.getById(id)
             .map(mapper::toDto)
             .orElseThrow(() ->
@@ -77,25 +83,28 @@ public class CourseController {
             );
     }
 
-    @Operation(operationId = "createCourse")
     @PostMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @Operation(
+        summary = "Create room",
+        operationId = "createRoom"
+    )
     @ApiResponses({
         @ApiResponse(
             responseCode = "201",
-            description = "Course created",
+            description = "Room created",
             content = @Content(
                 mediaType = MediaType.APPLICATION_JSON_VALUE,
-                schema = @Schema(implementation = CourseDto.class)
+                schema = @Schema(implementation = RoomDto.class)
             )
         )
     })
-    public ResponseEntity<CourseDto> create(
-        @RequestBody CourseDto dto
+    public ResponseEntity<RoomDto> create(
+        @RequestBody RoomDto dto
     ) {
-        CourseDto created = mapper.toDto(
+        RoomDto created = mapper.toDto(
             service.create(mapper.toEntity(dto))
         );
 
@@ -104,29 +113,32 @@ public class CourseController {
             .body(created);
     }
 
-    @Operation(operationId = "updateCourse")
     @PutMapping(
         value = "/{id}",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @Operation(
+        summary = "Update room",
+        operationId = "updateRoom"
+    )
     @ApiResponses({
         @ApiResponse(
             responseCode = "200",
-            description = "Course updated",
+            description = "Room updated",
             content = @Content(
                 mediaType = MediaType.APPLICATION_JSON_VALUE,
-                schema = @Schema(implementation = CourseDto.class)
+                schema = @Schema(implementation = RoomDto.class)
             )
         ),
         @ApiResponse(
             responseCode = "404",
-            description = "Course not found"
+            description = "Room not found"
         )
     })
-    public CourseDto update(
+    public RoomDto update(
         @PathVariable UUID id,
-        @RequestBody CourseDto dto
+        @RequestBody RoomDto dto
     ) {
         return service.update(id, mapper.toEntity(dto))
             .map(mapper::toDto)
@@ -135,28 +147,25 @@ public class CourseController {
             );
     }
 
-    @Operation(operationId = "deleteCourse")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(
+        summary = "Delete room",
+        operationId = "deleteRoom"
+    )
     @ApiResponses({
         @ApiResponse(
             responseCode = "204",
-            description = "Course deleted"
+            description = "Room deleted"
         ),
         @ApiResponse(
             responseCode = "404",
-            description = "Course not found"
+            description = "Room not found"
         )
     })
     public void delete(@PathVariable UUID id) {
         if (!service.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-    }
-
-    @Operation(operationId ="getCoursesByTeacherId")
-    @GetMapping(value = "/teacher/{teacherId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CourseDto> getByTeacherId(@PathVariable UUID teacherId) {
-        return service.getByTeacherId(teacherId).stream().map(mapper::toDto).toList();
     }
 }

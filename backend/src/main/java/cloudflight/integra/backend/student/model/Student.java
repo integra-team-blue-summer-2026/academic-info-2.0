@@ -59,7 +59,11 @@ public class Student {
         this.email = email;
     }
 
-    public String getGroup() { return group; }
+    public String getGroup() {
+        return group;
+    }
 
-    public void setGroup(String group) { this.group = group; }
+    public void setGroup(String group) {
+        this.group = group;
+    }
 }

@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { Home } from './features/home/home';
 import { CourseList } from './features/courses/course-list/course-list';
 import { CourseDetails } from './features/courses/course-details/course-details';
+import { StudentFinalGradesComponent } from './features/student-final-grades/student-final-grades';
+import {TeacherFinalGrades} from './features/teacher-final-grades/teacher-final-grades';
 import { FinalGradesComponent } from './features/final-grades/final-grades';
 import {Exams} from './features/exams/exams';
 import { StudentOverview } from './features/overviews/student-overview/student-overview';
@@ -43,6 +45,12 @@ export const routes: Routes = [
     component: CourseDetails,
   },
   {
+    path: 'my-grades',
+    component: StudentFinalGradesComponent
+  },
+  {
+    path: 'final-grades',
+    component: TeacherFinalGrades
     path: 'final-grades',
     component: FinalGradesComponent,
     },
@@ -53,5 +61,11 @@ export const routes: Routes = [
   {
     path: 'teacher/courses',
     component: TeacherOverview,
-  }
+  },
+  {
+    path: 'room-availability',
+    loadComponent: () =>
+      import('./features/room-availability/room-availability')
+        .then(m => m.RoomAvailability),
+  },
 ];
