@@ -1,6 +1,7 @@
 package cloudflight.integra.backend.exam;
 
 import cloudflight.integra.backend.exam.model.Exam;
+import cloudflight.integra.backend.studentexam.model.StudentExam;
 import cloudflight.integra.backend.exam.model.ExamType;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,11 @@ public class ExamService {
         }).orElse(false);
     }
 
+    public List<Exam> getByCourseId(UUID courseId) {
+        return repository.findAll().stream()
+            .filter(se -> courseId.equals(se.getCourseId()))
+            .toList();
+    }
     private void validate(Exam exam, UUID excludeId){
         validateDates(exam);
         validateGroupNotBusy(exam, excludeId);

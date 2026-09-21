@@ -3,15 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { CourseDto } from '../../../core/api/model/courseDto';
-import { StudentDto } from '../../../core/api/model/studentDto';
-import { StudentCourseDto } from '../../../core/api/model/studentCourseDto';
-import { ExamDto } from '../../../core/api/model/examDto';
+import { CourseDto } from '../../../core/api/models/courseDto';
+import { StudentDto } from '../../../core/api/models/studentDto';
+import { StudentCourseDto } from '../../../core/api/models/studentCourseDto';
+import { ExamDto } from '../../../core/api/models/examDto';
 
-import { CourseControllerService } from '../../../core/api/api/courseController.service';
-import { StudentControllerService } from '../../../core/api/api/studentController.service';
-import { StudentCourseControllerService } from '../../../core/api/api/studentCourseController.service';
-import { ExamControllerService } from '../../../core/api/api/examController.service';
+import { CourseControllerService } from '../../../core/api/services/courseController.service';
+import { StudentControllerService } from '../../../core/api/services/studentController.service';
+import { StudentCourseControllerService } from '../../../core/api/services/studentCourseController.service';
+import { ExamControllerService } from '../../../core/api/services/examController.service';
 
 import { Button } from 'primeng/button';
 import { TableModule } from 'primeng/table';
@@ -93,7 +93,7 @@ export class CourseDetailsTeacher implements OnInit {
   private loadCourse(courseId: string): void {
     this.loadingCourse = true;
 
-    this.courseService.getById4(courseId).subscribe({
+    this.courseService.getCourseById(courseId).subscribe({
       next: (course) => {
         this.course = course;
         this.loadingCourse = false;
@@ -114,7 +114,7 @@ export class CourseDetailsTeacher implements OnInit {
   private loadStudents(courseId: string): void {
     this.loadingStudents = true;
 
-    this.studentCourseService.getByCourseId(courseId).subscribe({
+    this.studentCourseService.getStudentCourseByCourseId(courseId).subscribe({
       next: (enrollments) => {
         if (!enrollments || enrollments.length === 0) {
           this.students = [];
@@ -140,7 +140,7 @@ export class CourseDetailsTeacher implements OnInit {
             return;
           }
 
-          this.studentService.getById1(enrollment.studentId).subscribe({
+          this.studentService.getStudentById(enrollment.studentId).subscribe({
             next: (student) => {
               loadedStudents.push({
                 student,
@@ -196,7 +196,7 @@ export class CourseDetailsTeacher implements OnInit {
     this.loadingExams = true;
 
     // The generated ExamControllerService exposes getAll4()
-    this.examService.getAll4().subscribe({
+    this.examService.getAllExams().subscribe({
       next: (exams) => {
         this.exams = (exams || []).filter(
           exam => exam.courseId === courseId
@@ -228,7 +228,7 @@ export class CourseDetailsTeacher implements OnInit {
     this.loadingAvailableStudents = true;
     this.addStudentDialogVisible = true;
 
-    this.studentService.getAll1().subscribe({
+    this.studentService.getAllStudents().subscribe({
       next: (students) => {
         this.availableStudents = students || [];
         this.loadingAvailableStudents = false;
@@ -292,7 +292,7 @@ export class CourseDetailsTeacher implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.studentCourseService.create3(enrollment).subscribe({
+    this.studentCourseService.createStudentCourse(enrollment).subscribe({
       next: () => {
         this.submittingStudent = false;
         this.addStudentDialogVisible = false;
@@ -388,7 +388,7 @@ export class CourseDetailsTeacher implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.examService.create4(exam).subscribe({
+    this.examService.createExam(exam).subscribe({
       next: () => {
         this.submittingExam = false;
         this.createExamDialogVisible = false;

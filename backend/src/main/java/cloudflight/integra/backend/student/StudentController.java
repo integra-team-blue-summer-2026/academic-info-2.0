@@ -28,7 +28,7 @@ public class StudentController {
         return service.getAll().stream().map(mapper::toDto).toList();
     }
 
-    @Operation(operationId = "getStudentsById")
+    @Operation(operationId = "getStudentById")
     @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public StudentDto getById(@PathVariable UUID id) {
         return service.getById(id).map(mapper::toDto)

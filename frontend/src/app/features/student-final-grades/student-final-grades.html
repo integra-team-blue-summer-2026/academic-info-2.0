@@ -22,14 +22,19 @@
     </p-tag>
   </div>
 
-  <p-table class="grades-table" [loading]="loading()" [value]="filteredGrades()">
+  <p-table
+    class="grades-table"
+    [loading]="loading()"
+    [value]="filteredGrades()"
+    [scrollable]="true"
+    scrollHeight="44vh">
     <ng-template pTemplate="header">
       <tr>
       <tr>
         <th class="col-course">Course</th>
         <th class="col-an">Ac. Year</th>
         <th class="col-credits">Credits</th>
-        <th class="col-date">Completion date</th>
+        <th class="col-date">Compl. date</th>
         <th class="col-grade">Grade</th>
       </tr>
     </ng-template>

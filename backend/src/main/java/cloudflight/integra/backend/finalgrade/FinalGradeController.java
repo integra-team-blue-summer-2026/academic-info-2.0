@@ -4,11 +4,7 @@ import cloudflight.integra.backend.course.CourseService;
 import cloudflight.integra.backend.course.model.Course;
 import cloudflight.integra.backend.enrollment.EnrollmentService;
 import cloudflight.integra.backend.enrollment.model.Enrollment;
-import cloudflight.integra.backend.finalgrade.FinalGradeService;
-import cloudflight.integra.backend.finalgrade.model.FinalGrade;
-import cloudflight.integra.backend.finalgrade.model.StudentFinalGradeDto;
-import cloudflight.integra.backend.finalgrade.model.StudentGradeRowDto;
-import cloudflight.integra.backend.finalgrade.model.TeacherFinalGradeDto;
+import cloudflight.integra.backend.finalgrade.model.*;
 import cloudflight.integra.backend.student.StudentService;
 import cloudflight.integra.backend.student.model.Student;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,10 +12,8 @@ import org.springframework.http.MediaType;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -91,13 +85,22 @@ public class FinalGradeController {
     @Operation(operationId = "getGradingSheetByCourseId")
     @GetMapping(value = "/course/{courseId}/grading-sheet", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<StudentGradeRowDto> getGradingSheet(@PathVariable UUID courseId) {
-        List<Enrollment> enrollments = enrollmentService.getByCourseId(courseId);
+        String currentYear = getCurrentAcademicYear();
+
+        List<Enrollment> currentEnrollments = enrollmentService.getByCourseId(courseId).stream()
+            .filter(enrollment -> Objects.equals(enrollment.getAcademicYear(), currentYear))
+            .toList();
+
         List<FinalGrade> grades = finalGradeService.getByCourseId(courseId);
 
         Map<UUID, FinalGrade> gradeMap = grades.stream()
-            .collect(Collectors.toMap(FinalGrade::getStudentId, g -> g));
+            .collect(Collectors.toMap(
+                FinalGrade::getStudentId,
+                g -> g,
+                (existing, replacement) -> replacement
+            ));
 
-        return enrollments.stream().map(enrollment -> {
+        return currentEnrollments.stream().map(enrollment -> {
             FinalGrade grade = gradeMap.get(enrollment.getStudentId());
 
             Student student = studentService.getById(enrollment.getStudentId()).orElse(null);
@@ -114,5 +117,64 @@ public class FinalGradeController {
 
             return gradingSheetMapper.toDto(enrollment, grade, studentGroup, studentFullName);
         }).toList();
+    }
+
+    @Operation(operationId = "getCourseStatistics")
+    @GetMapping(value = "/course/{courseId}/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<YearlyStatisticsDto> getCourseStatistics(@PathVariable UUID courseId) {
+        List<FinalGrade> grades = finalGradeService.getByCourseId(courseId);
+
+        Map<String, List<FinalGrade>> gradesByYear = grades.stream()
+            .filter(g -> g.getGrade() != null)
+            .collect(Collectors.groupingBy(g -> getAcademicYearFromCompletionDate(g.getCompletionDate())));
+
+        return gradesByYear.entrySet().stream()
+            .map(entry -> {
+                String academicYear = entry.getKey();
+                List<FinalGrade> yearGrades = entry.getValue();
+
+                double avg = yearGrades.stream()
+                    .mapToInt(FinalGrade::getGrade)
+                    .average()
+                    .orElse(0.0);
+
+                long passedCount = yearGrades.stream()
+                    .filter(g -> g.getGrade() >= 5)
+                    .count();
+
+                double passRate = yearGrades.isEmpty()
+                    ? 0.0
+                    : ((double) passedCount / yearGrades.size()) * 100.0;
+
+                return new YearlyStatisticsDto(
+                    academicYear,
+                    Math.round(avg * 100.0) / 100.0,
+                    Math.round(passRate * 10.0) / 10.0,
+                    yearGrades.size()
+                );
+            })
+            .sorted((a, b) -> b.academicYear().compareTo(a.academicYear()))
+            .toList();
+    }
+
+    private String getAcademicYearFromCompletionDate(String completionDate) {
+        if (completionDate == null || completionDate.isBlank()) {
+            return getCurrentAcademicYear();
+        }
+        try {
+            LocalDate date = LocalDate.parse(completionDate);
+            int year = date.getYear();
+            int month = date.getMonthValue();
+            return (month >= 10) ? year + "/" + (year + 1) : (year - 1) + "/" + year;
+        } catch (Exception e) {
+            return getCurrentAcademicYear();
+        }
+    }
+
+    private String getCurrentAcademicYear() {
+        LocalDate now = LocalDate.now();
+        int year = now.getYear();
+        int month = now.getMonthValue();
+        return (month >= 10) ? year + "/" + (year + 1) : (year - 1) + "/" + year;
     }
 }
