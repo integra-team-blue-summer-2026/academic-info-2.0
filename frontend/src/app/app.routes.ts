@@ -4,6 +4,9 @@ import { CourseList } from './features/courses/course-list/course-list';
 import { CourseDetails } from './features/courses/course-details/course-details';
 import { StudentFinalGradesComponent } from './features/student-final-grades/student-final-grades';
 import {TeacherFinalGrades} from './features/teacher-final-grades/teacher-final-grades';
+import { StudentOverview } from './features/overviews/student-overview/student-overview';
+import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
+import {TeacherExamsComponent} from './features/exams-teachers/exams-teachers';
 import { FinalGradesComponent } from './features/final-grades/final-grades';
 import {Exams} from './features/exams/exams';
 import { StudentOverview } from './features/overviews/student-overview/student-overview';
@@ -46,16 +49,12 @@ export const routes: Routes = [
     component: CourseDetails,
   },
   {
-    path: 'my-grades',
+    path: 'student/grades',
     component: StudentFinalGradesComponent
   },
   {
-    path: 'final-grades',
+    path: 'teacher/grades',
     component: TeacherFinalGrades
-  },
-  {
-    path: 'final-grades',
-    component: FinalGradesComponent
   },
   {
     path: 'student/courses',
@@ -66,9 +65,14 @@ export const routes: Routes = [
     component: TeacherOverview,
   },
   {
+    path: 'teacher/exams',
+    component: TeacherExamsComponent
+  },
+  {
     path: 'student/thesis',
     component: StudentThesis
-  }
+  },
+  {
     path: 'room-availability',
     loadComponent: () =>
       import('./features/room-availability/room-availability')

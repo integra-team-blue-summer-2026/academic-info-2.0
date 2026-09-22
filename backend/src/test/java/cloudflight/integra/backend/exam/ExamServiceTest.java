@@ -1,4 +1,5 @@
 package cloudflight.integra.backend.exam;
+
 import cloudflight.integra.backend.exam.model.Exam;
 import cloudflight.integra.backend.exam.model.ExamType;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,6 @@ public class ExamServiceTest {
     @Autowired
     private ExamService service;
 
-
     @Test
     void testCreateAndGetById() {
         Exam exam = new Exam();
@@ -42,6 +42,8 @@ public class ExamServiceTest {
 
     @Test
     void testGetAll() {
+        int initialCount = service.getAll().size();
+
         Exam exam1 = new Exam();
         exam1.setId(UUID.randomUUID());
         exam1.setPrimaryDate(LocalDateTime.of(2026, 6, 15, 10, 0));
@@ -60,7 +62,7 @@ public class ExamServiceTest {
 
         List<Exam> allExams = service.getAll();
 
-        assertEquals(2, allExams.size());
+        assertEquals(initialCount + 2, allExams.size());
         assertTrue(allExams.stream().anyMatch(e -> e.getId().equals(exam1.getId())));
         assertTrue(allExams.stream().anyMatch(e -> e.getId().equals(exam2.getId())));
     }
