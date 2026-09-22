@@ -6,6 +6,10 @@ import { StudentThesis } from './student-thesis';
 import { ThesisControllerService } from '../../core/api/services/thesisController.service';
 import { ThesisDto } from '../../core/api/models/thesisDto';
 
+import { TeacherControllerService } from '../../core/api/services/teacherController.service';
+import { AdvisorRequestControllerService } from '../../core/api/services/advisorRequestController.service';
+import { AuthService } from '../../core/services/auth.service';
+
 describe('StudentThesis', () => {
   let component: StudentThesis;
   let fixture: ComponentFixture<StudentThesis>;
@@ -36,6 +40,26 @@ describe('StudentThesis', () => {
         {
           provide: ThesisControllerService,
           useValue: thesisService,
+        },
+        {
+          provide: TeacherControllerService,
+          useValue: {
+            getAllTeachers: vi.fn().mockReturnValue(of([])),
+            searchTeachersByTraits: vi.fn().mockReturnValue(of([])),
+          },
+        },
+        {
+          provide: AdvisorRequestControllerService,
+          useValue: {
+            getRequestsByStudent: vi.fn().mockReturnValue(of([])),
+            applyForAdvisor: vi.fn().mockReturnValue(of({})),
+          },
+        },
+        {
+          provide: AuthService,
+          useValue: {
+            getUserId: vi.fn().mockReturnValue('3fa85f64-5717-4562-b3fc-2c963f66afa6'),
+          },
         },
       ],
     }).compileComponents();
