@@ -1,0 +1,38 @@
+.teacher-thesis-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.5rem;
+}
+
+.page-header p {
+  margin: 0;
+  color: #666;
+}
+
+.message-cell {
+  max-width: 28rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.actions-column {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.row-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.no-actions {
+  color: #999;
+}
