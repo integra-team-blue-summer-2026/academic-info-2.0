@@ -21,11 +21,21 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+
 @WebMvcTest(CourseController.class)
+@org.springframework.context.annotation.Import(cloudflight.integra.backend.auth.SecurityConfig.class)
+@org.springframework.security.test.context.support.WithMockUser
 class CourseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private cloudflight.integra.backend.auth.JwtService jwtService;
+
+    @MockitoBean
+    private cloudflight.integra.backend.auth.AppUserDetailsService appUserDetailsService;
 
     @MockitoBean
     private CourseService service;

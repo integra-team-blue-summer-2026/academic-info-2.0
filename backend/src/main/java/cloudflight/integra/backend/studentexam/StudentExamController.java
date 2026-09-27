@@ -87,7 +87,9 @@ public class StudentExamController {
 
         return exams.stream()
             .map(exam -> {
-                String academicYear = getAcademicYearFromDate(exam.getExamDate());
+                String academicYear = getAcademicYearFromDate(
+                    exam.getPrimaryDate() != null ? exam.getPrimaryDate().toLocalDate().toString() : null
+                );
                 List<StudentExam> studentExams = studentExamService.getByExamId(exam.getId());
                 int total = studentExams.size();
 

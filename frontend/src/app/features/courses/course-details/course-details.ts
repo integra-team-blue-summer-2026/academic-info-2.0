@@ -21,7 +21,7 @@ interface Exam {
   id: string;
   courseId: string;
   examType: string;
-  examDate: string;
+  primaryDate: string;
   room: string;
 }
 
