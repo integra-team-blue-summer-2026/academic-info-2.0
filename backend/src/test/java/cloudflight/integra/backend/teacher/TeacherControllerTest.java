@@ -50,7 +50,8 @@ class TeacherControllerTest {
             "Ana",
             "Popescu",
             "Assoc. Prof.",
-            "Computer Science"
+            "Computer Science",
+            List.of()
         );
 
         when(service.getAll()).thenReturn(List.of(teacher));
@@ -80,7 +81,8 @@ class TeacherControllerTest {
             "Ana",
             "Popescu",
             "Assoc. Prof.",
-            "Computer Science"
+            "Computer Science",
+            List.of()
         );
 
         when(service.getById(id)).thenReturn(Optional.of(teacher));
@@ -120,7 +122,8 @@ class TeacherControllerTest {
             "Ana",
             "Popescu",
             "Assoc. Prof.",
-            "Computer Science"
+            "Computer Science",
+            List.of()
         );
 
         when(mapper.toEntity(any())).thenReturn(teacher);
@@ -159,7 +162,8 @@ class TeacherControllerTest {
             "Ana",
             "Popescu",
             "Prof.",
-            "Software Engineering"
+            "Software Engineering",
+            List.of()
         );
 
         when(mapper.toEntity(any())).thenReturn(teacher);
@@ -251,7 +255,8 @@ class TeacherControllerTest {
             "Ana",
             "Popescu",
             "Assoc. Prof.",
-            "Computer Science"
+            "Computer Science",
+            List.of()
         );
 
         when(mapper.toEntity(any())).thenReturn(teacherWithoutClientId);
@@ -278,7 +283,8 @@ class TeacherControllerTest {
                 "Ana",
                 "Popescu",
                 "Assoc. Prof.",
-                "Computer Science"
+                "Computer Science",
+                null
             )
         );
     }
@@ -347,7 +353,8 @@ class TeacherControllerTest {
             "Ana",
             "Popescu",
             "Assoc. Prof.",
-            "Computer Science"
+            "Computer Science",
+            List.of()
         );
 
         when(service.getAll()).thenReturn(List.of(teacher));

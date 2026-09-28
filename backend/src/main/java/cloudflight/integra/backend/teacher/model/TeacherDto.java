@@ -1,5 +1,6 @@
 package cloudflight.integra.backend.teacher.model;
 
+import java.util.List;
 import java.util.UUID;
 
 public record TeacherDto(
@@ -7,6 +8,7 @@ public record TeacherDto(
     String firstName,
     String lastName,
     String title,
-    String department
+    String department,
+    List<TeacherTrait> traits
 ) {
 }

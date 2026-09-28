@@ -3,10 +3,14 @@ import { Home } from './features/home/home';
 import { CourseList } from './features/courses/course-list/course-list';
 import { CourseDetails } from './features/courses/course-details/course-details';
 import { StudentFinalGradesComponent } from './features/student-final-grades/student-final-grades';
-import { TeacherFinalGrades } from './features/teacher-final-grades/teacher-final-grades';
+import {TeacherFinalGrades} from './features/teacher-final-grades/teacher-final-grades';
+import {TeacherExamsComponent} from './features/exams-teachers/exams-teachers';
+import { FinalGradesComponent } from './features/final-grades/final-grades';
+import {Exams} from './features/exams/exams';
 import { StudentOverview } from './features/overviews/student-overview/student-overview';
 import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
 import { StudentThesis } from './features/student-thesis/student-thesis';
+import {TeacherThesis} from './features/teacher-thesis/teacher-thesis';
 
 export const routes: Routes = [
   {
@@ -66,6 +70,10 @@ export const routes: Routes = [
   {
     path: 'student/thesis',
     component: StudentThesis
+  },
+  {
+    path: 'teacher/thesis',
+    component: TeacherThesis
   },
   {
     path: 'room-availability',

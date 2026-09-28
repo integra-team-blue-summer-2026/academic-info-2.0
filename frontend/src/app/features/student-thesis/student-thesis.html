@@ -1,114 +1,268 @@
+<p-toast />
+
 <div class="thesis-page">
   <div class="page-header">
     <h1>Graduation Thesis</h1>
 
-    <p>
-      Upload your graduation thesis and keep track of its review status.
-    </p>
+    <p>Find a thesis advisor and keep track of your thesis submission.</p>
   </div>
-
-  @if (loading()) {
-  <div class="loading-container">
-    <span>Loading thesis information...</span>
-  </div>
-  } @else {
-  @if (errorMessage()) {
-  <p-message
-    severity="error"
-    [text]="errorMessage()!"
-  />
-  }
 
   <p-card>
     <div class="section">
-      <h2>Thesis submission</h2>
-
-      @if (thesis()) {
-      <div class="status-row">
-        <span class="status-label">Status:</span>
-
-        <p-tag
-          [value]="getStatusLabel(thesis()!.status)"
-          [severity]="getStatusSeverity(thesis()!.status)"
-        />
-      </div>
-
-      <div class="file-information">
-        <span class="file-label">Uploaded file:</span>
-
-        <span class="file-name">
-              {{ thesis()!.fileName }}
-            </span>
-      </div>
-
-      @if (thesis()!.status === 'REJECTED') {
-      <div class="rejection-box">
-        <h3>Rejection message</h3>
-
-        <p>
-          {{ thesis()!.rejectionMessage }}
-        </p>
-
-        <small>
-          Please make the requested changes and upload a new version.
-        </small>
-      </div>
-      }
-      } @else {
-      <div class="no-thesis">
-        <p>
-          You have not uploaded your thesis yet.
-        </p>
-      </div>
-      }
-
-      <div class="upload-section">
-        <label
-          for="thesis-file"
-          class="file-label"
-        >
-          Select your thesis
-        </label>
-
-        <input
-          id="thesis-file"
-          type="file"
-          accept=".pdf,application/pdf"
-          (change)="onFileSelected($event)"
-        />
-
-        @if (selectedFile) {
-        <div class="selected-file">
-          Selected file:
-          <strong>{{ selectedFile.name }}</strong>
-        </div>
-        }
+      <div class="section-head">
+        <h2>Thesis advisor</h2>
 
         <p-button
-          label="Upload Thesis"
-          icon="pi pi-upload"
-          [disabled]="!selectedFile || uploading()"
-          [loading]="uploading()"
-          (onClick)="upload()"
+          label="Find an advisor"
+          icon="pi pi-search"
+          [disabled]="!canRequest()"
+          (onClick)="openFindDialog()"
         />
       </div>
-    </div>
 
-    <div class="turnitin-section">
-      <h2>Check your thesis</h2>
+      @if (hasAdvisor()) {
+        <div class="advisor-box">
+          <span class="advisor-label">Your advisor:</span>
 
-      <p>
-        You can use Turnitin to check your thesis before submitting it.
-      </p>
+          <span class="advisor-name">
+          {{ teacherName(advisorRequest()!.teacherId) }}
+        </span>
 
-      <a
-        href="https://www.turnitin.com.au/login"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Open Turnitin
-      </a>
+          <p-tag value="Approved" severity="success" />
+        </div>
+      } @else if (requestBlockedReason()) {
+        <p-message severity="info" [text]="requestBlockedReason()!" />
+      } @else {
+        <p class="hint">
+          You don't have an advisor yet. Search for one by the topics you want to
+          work on.
+        </p>
+      }
+
+      @if (requests().length > 0) {
+        <div class="requests">
+          <h3>Your requests</h3>
+
+          @for (request of requests(); track request.id) {
+            <div class="request-row">
+          <span class="request-teacher">
+            {{ teacherName(request.teacherId) }}
+          </span>
+
+              @if (request.message) {
+                <span class="request-message">{{ request.message }}</span>
+              }
+
+              <p-tag
+                [value]="getRequestStatusLabel(request.status)"
+                [severity]="getRequestStatusSeverity(request.status)"
+              />
+            </div>
+          }
+        </div>
+      }
     </div>
   </p-card>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <span>Loading thesis information...</span>
+    </div>
+  } @else {
+    @if (errorMessage()) {
+      <p-message severity="error" [text]="errorMessage()!" />
+    }
+
+    <p-card>
+      <div class="section">
+        <h2>Thesis submission</h2>
+
+        @if (thesis()) {
+          <div class="status-row">
+            <span class="status-label">Status:</span>
+
+            <p-tag
+              [value]="getStatusLabel(thesis()!.status)"
+              [severity]="getStatusSeverity(thesis()!.status)"
+            />
+          </div>
+
+          <div class="file-information">
+            <span class="file-label">Uploaded file:</span>
+
+            <span class="file-name">
+          {{ thesis()!.fileName }}
+        </span>
+          </div>
+
+          @if (thesis()!.status === 'REJECTED') {
+            <div class="rejection-box">
+              <h3>Rejection message</h3>
+
+              <p>
+                {{ thesis()!.rejectionMessage }}
+              </p>
+
+              <small>
+                Please make the requested changes and upload a new version.
+              </small>
+            </div>
+          }
+        } @else {
+          <div class="no-thesis">
+            <p>You have not uploaded your thesis yet.</p>
+          </div>
+        }
+
+        <div class="upload-section">
+          <label for="thesis-file" class="file-label">Select your thesis</label>
+
+          <input
+            id="thesis-file"
+            type="file"
+            accept=".pdf,application/pdf"
+            (change)="onFileSelected($event)"
+          />
+
+          @if (selectedFile) {
+            <div class="selected-file">
+              Selected file:
+              <strong>{{ selectedFile.name }}</strong>
+            </div>
+          }
+
+          <p-button
+            label="Upload Thesis"
+            icon="pi pi-upload"
+            [disabled]="!selectedFile || uploading()"
+            [loading]="uploading()"
+            (onClick)="upload()"
+          />
+        </div>
+      </div>
+
+      <div class="turnitin-section">
+        <h2>Check your thesis</h2>
+
+        <p>You can use Turnitin to check your thesis before submitting it.</p>
+
+        <a
+          href="https://www.turnitin.com.au/login"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open Turnitin
+        </a>
+      </div>
+    </p-card>
   }
 </div>
+
+<p-dialog
+  header="Find an advisor"
+  [visible]="findDialogVisible()"
+  (visibleChange)="onFindDialogVisibleChange($event)"
+  [modal]="true"
+  [style]="{ width: '42rem' }"
+>
+  <div class="find-dialog">
+    <div class="field">
+      <label for="traits">What do you want to work on? (up to 3 topics)</label>
+
+      <p-multiselect
+        inputId="traits"
+        [options]="traitOptions"
+        optionLabel="label"
+        optionValue="value"
+        [(ngModel)]="selectedTraits"
+        [selectionLimit]="3"
+        display="chip"
+        placeholder="Select topics"
+        [style]="{ width: '100%' }"
+      />
+    </div>
+
+    <p-button
+      label="Search"
+      icon="pi pi-search"
+      [disabled]="selectedTraits.length === 0 || searching()"
+      [loading]="searching()"
+      (onClick)="search()"
+    />
+
+    @if (searchResults() !== null) {
+      @if (searchResults()!.length === 0) {
+        <p class="hint">No teachers match those topics. Try different ones.</p>
+      } @else {
+        <div class="results">
+          @for (teacher of searchResults()!; track teacher.id) {
+            <button
+              type="button"
+              class="teacher-card"
+              [class.selected]="selectedTeacher()?.id === teacher.id"
+              [class.disabled]="isAlreadyRequested(teacher)"
+              [disabled]="isAlreadyRequested(teacher)"
+              (click)="selectTeacher(teacher)"
+            >
+              <div class="teacher-head">
+          <span class="teacher-name">
+            {{ teacher.title }} {{ teacher.firstName }} {{ teacher.lastName }}
+          </span>
+
+                @if (isAlreadyRequested(teacher)) {
+                  <p-tag value="Already requested" severity="secondary" />
+                }
+              </div>
+
+              @if (teacher.department) {
+                <span class="teacher-dept">{{ teacher.department }}</span>
+              }
+
+              @if (teacher.traits?.length) {
+                <div class="teacher-traits">
+                  @for (trait of teacher.traits ?? []; track trait) {
+                    <p-tag [value]="traitLabel(trait)" severity="info" />
+                  }
+                </div>
+              }
+            </button>
+          }
+        </div>
+      }
+    }
+
+    @if (selectedTeacher()) {
+      <div class="field">
+        <label for="advisor-message">
+          Message to {{ selectedTeacher()!.firstName }}
+          {{ selectedTeacher()!.lastName }}
+        </label>
+
+        <textarea
+          id="advisor-message"
+          pTextarea
+          rows="4"
+          [(ngModel)]="requestMessage"
+          placeholder="Describe what you want to do for your thesis."
+        ></textarea>
+      </div>
+    }
+  </div>
+
+  <ng-template #footer>
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      [outlined]="true"
+      (onClick)="onFindDialogVisibleChange(false)"
+    />
+
+    <p-button
+      label="Send request"
+      icon="pi pi-send"
+      [disabled]="!selectedTeacher() || applying()"
+      [loading]="applying()"
+      (onClick)="sendRequest()"
+    />
+  </ng-template>
+</p-dialog>

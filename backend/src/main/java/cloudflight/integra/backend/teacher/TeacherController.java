@@ -2,6 +2,7 @@ package cloudflight.integra.backend.teacher;
 
 import cloudflight.integra.backend.teacher.model.GeneratePasswordDto;
 import cloudflight.integra.backend.teacher.model.TeacherDto;
+import cloudflight.integra.backend.teacher.model.TeacherTrait;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,7 +53,8 @@ public class TeacherController {
             dto.firstName(),
             dto.lastName(),
             dto.title(),
-            dto.department()
+            dto.department(),
+            dto.traits()
         );
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -88,6 +90,12 @@ public class TeacherController {
     @PostMapping("/{id}/password/regenerate")
     public GeneratePasswordDto regeneratePassword(@PathVariable UUID id){
         return service.regeneratePassword(id).map(GeneratePasswordDto::new).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @Operation(operationId = "searchTeachersByTraits")
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<TeacherDto> searchByTraits(@RequestParam List<TeacherTrait> traits) {
+        return service.findByTraits(traits).stream().map(mapper::toDto).toList();
     }
 
 }

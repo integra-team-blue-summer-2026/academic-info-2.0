@@ -1,6 +1,7 @@
 package cloudflight.integra.backend.teacher;
 
 import cloudflight.integra.backend.teacher.model.Teacher;
+import cloudflight.integra.backend.teacher.model.TeacherTrait;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,4 +58,15 @@ public class TeacherService {
             return plainPassword;
         });
     }
+
+    public List<Teacher> findByTraits(List<TeacherTrait> wantedTraits) {
+        if (wantedTraits == null || wantedTraits.isEmpty()) {
+            return List.of();
+        }
+        return repository.findAll().stream()
+            .filter(t -> t.getTraits() != null
+                && t.getTraits().stream().anyMatch(wantedTraits::contains))
+            .toList();
+    }
+
 }

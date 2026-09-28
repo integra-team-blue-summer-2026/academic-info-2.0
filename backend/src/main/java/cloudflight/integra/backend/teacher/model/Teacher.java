@@ -1,5 +1,6 @@
 package cloudflight.integra.backend.teacher.model;
 
+import java.util.List;
 import java.util.UUID;
 
 public class Teacher {
@@ -9,6 +10,7 @@ public class Teacher {
     private String title;
     private String department;
     private String passwordHash;
+    private List<TeacherTrait> traits;
 
     public Teacher() {
     }
@@ -73,4 +75,8 @@ public class Teacher {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
+
+    public List<TeacherTrait> getTraits() { return traits; }
+
+    public void setTraits(List<TeacherTrait> traits) { this.traits = traits; }
 }
