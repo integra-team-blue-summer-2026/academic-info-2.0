@@ -52,6 +52,6 @@ public class StudentCourseService {
         return repository.deleteByCourseIdAndStudentId(
             courseId,
             studentId
-        );
+        ) > 0;
     }
 }

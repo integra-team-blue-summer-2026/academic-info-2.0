@@ -1,9 +1,14 @@
 package cloudflight.integra.backend.room.model;
 
+import jakarta.persistence.*;
+
 import java.util.UUID;
 
+@Entity
 public class Room {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String roomName;
     private String zone;

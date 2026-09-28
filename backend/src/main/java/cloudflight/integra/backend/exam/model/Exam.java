@@ -1,13 +1,21 @@
 package cloudflight.integra.backend.exam.model;
+
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity
 public class Exam {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private UUID courseId;
     private UUID teacherId;
+    @Enumerated(EnumType.STRING)
     private ExamType examType;
+    @Enumerated(EnumType.STRING)
     private ExamFormat examFormat;
+    @Column(name = "exam_group")
     private String group;
     private int duration;
     private LocalDateTime primaryDate;

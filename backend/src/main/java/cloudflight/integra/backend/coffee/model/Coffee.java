@@ -1,8 +1,14 @@
 package cloudflight.integra.backend.coffee.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Coffee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String origin;
+    @Enumerated(EnumType.STRING)
     private BrewMethod brewMethod;
 
     public Coffee() {

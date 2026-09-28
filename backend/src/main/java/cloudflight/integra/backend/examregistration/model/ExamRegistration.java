@@ -1,11 +1,17 @@
 package cloudflight.integra.backend.examregistration.model;
 
+import jakarta.persistence.*;
+
 import java.util.UUID;
 
+@Entity
 public class ExamRegistration {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private UUID studentId;
     private UUID examId;
+    @Enumerated(EnumType.STRING)
     private ExamSlot chosenSlot;
 
     public ExamRegistration() {

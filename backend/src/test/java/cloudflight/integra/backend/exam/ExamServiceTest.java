@@ -25,14 +25,13 @@ public class ExamServiceTest {
     @Test
     void testCreateAndGetById() {
         Exam exam = new Exam();
-        UUID examId = UUID.randomUUID();
-        exam.setId(examId);
         exam.setExamType(ExamType.PARTIAL);
         exam.setRoom("C310");
         exam.setPrimaryDate(LocalDateTime.of(2026, 6, 15, 10, 0));
         exam.setCourseId(UUID.randomUUID());
 
-        service.create(exam);
+        Exam created = service.create(exam);
+        UUID examId = created.getId();
 
         Optional<Exam> found = service.getById(examId);
         assertTrue(found.isPresent());
@@ -45,37 +44,34 @@ public class ExamServiceTest {
         int initialCount = service.getAll().size();
 
         Exam exam1 = new Exam();
-        exam1.setId(UUID.randomUUID());
         exam1.setPrimaryDate(LocalDateTime.of(2026, 6, 15, 10, 0));
         exam1.setRoom("C310");
         exam1.setGroup("221");
         exam1.setCourseId(UUID.randomUUID());
         Exam exam2 = new Exam();
-        exam2.setId(UUID.randomUUID());
         exam2.setCourseId(UUID.randomUUID());
         exam2.setPrimaryDate(LocalDateTime.of(2026, 6, 16, 10, 0));
         exam2.setRoom("C311");
         exam2.setGroup("222");
 
-        service.create(exam1);
-        service.create(exam2);
+        final Exam created1 = service.create(exam1);
+        final Exam created2 = service.create(exam2);
 
         List<Exam> allExams = service.getAll();
 
         assertEquals(initialCount + 2, allExams.size());
-        assertTrue(allExams.stream().anyMatch(e -> e.getId().equals(exam1.getId())));
-        assertTrue(allExams.stream().anyMatch(e -> e.getId().equals(exam2.getId())));
+        assertTrue(allExams.stream().anyMatch(e -> e.getId().equals(created1.getId())));
+        assertTrue(allExams.stream().anyMatch(e -> e.getId().equals(created2.getId())));
     }
 
     @Test
     void testDelete() {
-        UUID id = UUID.randomUUID();
         Exam exam = new Exam();
-        exam.setId(id);
         exam.setPrimaryDate(LocalDateTime.of(2026, 6, 15, 10, 0));
         exam.setCourseId(UUID.randomUUID());
 
-        service.create(exam);
+        Exam created = service.create(exam);
+        UUID id = created.getId();
 
         boolean isDeleted = service.delete(id);
 
