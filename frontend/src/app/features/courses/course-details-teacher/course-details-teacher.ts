@@ -140,7 +140,7 @@ export class CourseDetailsTeacher implements OnInit {
             return;
           }
 
-          this.studentService.getStudentById(enrollment.studentId).subscribe({
+          this.studentService.getById(enrollment.studentId).subscribe({
             next: (student) => {
               loadedStudents.push({
                 student,
@@ -195,8 +195,8 @@ export class CourseDetailsTeacher implements OnInit {
   private loadExams(courseId: string): void {
     this.loadingExams = true;
 
-    // The generated ExamControllerService exposes getAll4()
-    this.examService.getAllExams().subscribe({
+    // The generated ExamControllerService exposes getAll3()
+    this.examService.getAll3().subscribe({
       next: (exams) => {
         this.exams = (exams || []).filter(
           exam => exam.courseId === courseId
@@ -228,7 +228,7 @@ export class CourseDetailsTeacher implements OnInit {
     this.loadingAvailableStudents = true;
     this.addStudentDialogVisible = true;
 
-    this.studentService.getAllStudents().subscribe({
+    this.studentService.getAll().subscribe({
       next: (students) => {
         this.availableStudents = students || [];
         this.loadingAvailableStudents = false;
@@ -292,7 +292,7 @@ export class CourseDetailsTeacher implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.studentCourseService.createStudentCourse(enrollment).subscribe({
+    this.studentCourseService.create2(enrollment).subscribe({
       next: () => {
         this.submittingStudent = false;
         this.addStudentDialogVisible = false;
@@ -423,3 +423,4 @@ export class CourseDetailsTeacher implements OnInit {
     return `${student.firstName ?? ''} ${student.lastName ?? ''}`.trim();
   }
 }
+
