@@ -114,7 +114,7 @@ export class CourseDetailsTeacher implements OnInit {
   private loadStudents(courseId: string): void {
     this.loadingStudents = true;
 
-    this.studentCourseService.getByCourseId(courseId).subscribe({
+    this.studentCourseService.getStudentCourseByCourseId(courseId).subscribe({
       next: (enrollments) => {
         if (!enrollments || enrollments.length === 0) {
           this.students = [];
@@ -388,7 +388,7 @@ export class CourseDetailsTeacher implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.examService.create4(exam).subscribe({
+    this.examService.createExam(exam).subscribe({
       next: () => {
         this.submittingExam = false;
         this.createExamDialogVisible = false;

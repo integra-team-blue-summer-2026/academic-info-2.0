@@ -24,3 +24,127 @@
 .empty-message {
   text-align: center;
 }
+
+
+/* Teacher availability */
+
+.availability-section {
+  margin-top: 3rem;
+}
+
+.availability-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.availability-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.availability-header p {
+  margin: 0.4rem 0 0;
+  color: #6b7280;
+}
+
+.loading-state {
+  padding: 2rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.day-section {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.day-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.no-availability {
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.interval-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.interval-row {
+  display: flex;
+  align-items: end;
+  gap: 0.75rem;
+}
+
+.time-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.time-field label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.time-field input {
+  width: 9rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #111827;
+}
+
+.separator {
+  padding-bottom: 0.55rem;
+  font-weight: 600;
+}
+
+.availability-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+}
+
+@media (max-width: 700px) {
+  .availability-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .interval-row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .time-field input {
+    width: 100%;
+  }
+
+  .separator {
+    display: none;
+  }
+}

@@ -1,0 +1,136 @@
+<p-toast />
+
+<div class="availability-container">
+
+  <div class="availability-header">
+    <div>
+      <h2>Teacher availability</h2>
+
+      @if (teacher) {
+      <p>
+        {{ teacher.firstName }} {{ teacher.lastName }}
+      </p>
+      }
+    </div>
+  </div>
+
+  @if (loading()) {
+  <div class="loading-state">
+    Loading availability...
+  </div>
+  } @else {
+
+  <form [formGroup]="form">
+
+    @for (day of days; track day.value) {
+
+    <section class="day-section">
+
+      <div class="day-header">
+        <h3>{{ day.label }}</h3>
+
+        <p-button
+          label="Add interval"
+          icon="pi pi-plus"
+          [outlined]="true"
+          size="small"
+          type="button"
+          (onClick)="addInterval(day.value)"
+        />
+      </div>
+
+      @if (getIntervals(day.value).length === 0) {
+
+      <div class="no-availability">
+        No availability set.
+      </div>
+
+      } @else {
+
+      <div
+        class="interval-list"
+        [formArrayName]="day.value === 'MONDAY'
+                ? 'monday'
+                : day.value === 'TUESDAY'
+                  ? 'tuesday'
+                  : day.value === 'WEDNESDAY'
+                    ? 'wednesday'
+                    : day.value === 'THURSDAY'
+                      ? 'thursday'
+                      : 'friday'"
+      >
+
+        @for (
+        interval of getIntervals(day.value).controls;
+        track $index
+        ) {
+
+        <div
+          class="interval-row"
+          [formGroupName]="$index"
+        >
+
+          <div class="time-field">
+            <label>From</label>
+
+            <input
+              type="time"
+              formControlName="startTime"
+            />
+          </div>
+
+          <span class="separator">—</span>
+
+          <div class="time-field">
+            <label>To</label>
+
+            <input
+              type="time"
+              formControlName="endTime"
+            />
+          </div>
+
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            [text]="true"
+            type="button"
+            ariaLabel="Remove interval"
+            (onClick)="removeInterval(day.value, $index)"
+          />
+
+        </div>
+
+        }
+
+      </div>
+      }
+
+    </section>
+
+    }
+
+  </form>
+  }
+
+  <div class="availability-footer">
+
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      [outlined]="true"
+      type="button"
+      (onClick)="close()"
+    />
+
+    <p-button
+      label="Save"
+      icon="pi pi-check"
+      [loading]="saving()"
+      type="button"
+      (onClick)="save()"
+    />
+
+  </div>
+
+</div>

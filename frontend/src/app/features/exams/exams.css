@@ -1,0 +1,78 @@
+:host {
+  display: block;
+  padding: 2rem;
+}
+
+.exams-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.exams-toolbar h2 {
+  margin: 0;
+  font-family: inherit;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #18233a;
+}
+
+:host ::ng-deep .p-datatable {
+  max-width: 100%;
+  margin: auto;
+  font-size: 1.1rem;
+}
+
+:host ::ng-deep .p-datatable th {
+  color: #18233a;
+  font-weight: 600;
+  vertical-align: middle !important;
+}
+
+:host ::ng-deep .p-datatable td {
+  color: #18233a;
+  vertical-align: middle !important;
+}
+
+:host ::ng-deep .p-button:not(.p-button-secondary):not(.p-button-outlined) {
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+  color: #ffffff !important;
+  box-shadow: none;
+}
+
+:host ::ng-deep .p-button:not(.p-button-secondary):not(.p-button-outlined):hover {
+  background-color: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+}
+
+.chosen {
+  color: #15803d;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.exam-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.exam-form label {
+  font-weight: 500;
+  color: #18233a;
+  margin-top: 0.75rem;
+}
+
+.exam-form label:first-child {
+  margin-top: 0;
+}
+
+.exam-form :host ::ng-deep .p-inputtext,
+.exam-form :host ::ng-deep .p-select,
+.exam-form :host ::ng-deep .p-datepicker,
+.exam-form :host ::ng-deep .p-inputnumber {
+  width: 100%;
+}

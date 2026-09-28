@@ -1,19 +1,47 @@
 :host {
   display: block;
+  padding: 2rem;
 }
 
 .teachers-toolbar {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .teachers-toolbar h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-family: inherit;
+  font-size: 2rem;
   font-weight: 600;
+  color: #18233a;
 }
+
+:host ::ng-deep .p-datatable th {
+  color: #18233a;
+  font-weight: 600;
+  vertical-align: middle !important;
+}
+
+:host ::ng-deep .p-datatable td {
+  color: #18233a;
+  vertical-align: middle !important;
+}
+
+:host ::ng-deep .p-button:not(.p-button-secondary):not(.p-button-outlined) {
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+  color: #ffffff !important;
+  box-shadow: none;
+}
+
+:host ::ng-deep .p-button:not(.p-button-secondary):not(.p-button-outlined):hover {
+  background-color: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+}
+
 
 th:nth-child(1),
 td:nth-child(1),
@@ -58,6 +86,7 @@ td:nth-child(4) {
 .teacher-form label {
   margin-top: 0.75rem;
   font-weight: 500;
+  color: #18233a;
 }
 
 .generated-password {

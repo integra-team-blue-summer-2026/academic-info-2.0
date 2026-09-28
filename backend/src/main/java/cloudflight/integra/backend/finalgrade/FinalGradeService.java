@@ -1,9 +1,6 @@
 package cloudflight.integra.backend.finalgrade;
-
-import cloudflight.integra.backend.finalgrade.FinalGradeRepository;
 import cloudflight.integra.backend.finalgrade.model.FinalGrade;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

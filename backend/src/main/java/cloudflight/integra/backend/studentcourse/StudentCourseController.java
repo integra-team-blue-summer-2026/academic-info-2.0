@@ -1,6 +1,7 @@
 package cloudflight.integra.backend.studentcourse;
 
 import cloudflight.integra.backend.studentcourse.model.StudentCourseDto;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class StudentCourseController {
         this.mapper = mapper;
     }
 
+    @Operation(operationId = "getAllStudentCourses")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<StudentCourseDto> getAll() {
         return service.getAll()
@@ -33,6 +35,7 @@ public class StudentCourseController {
             .toList();
     }
 
+    @Operation(operationId = "getStudentCourseById")
     @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public StudentCourseDto getById(
         @PathVariable UUID id
@@ -46,6 +49,7 @@ public class StudentCourseController {
             );
     }
 
+    @Operation(operationId = "getStudentCourseByCourseId")
     @GetMapping(value="/course/{courseId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<StudentCourseDto> getByCourseId(
         @PathVariable UUID courseId
@@ -56,6 +60,7 @@ public class StudentCourseController {
             .toList();
     }
 
+    @Operation(operationId = "createStudentCourse")
     @PostMapping
     public ResponseEntity<StudentCourseDto> create(
         @RequestBody StudentCourseDto dto
@@ -72,6 +77,7 @@ public class StudentCourseController {
             .body(created);
     }
 
+    @Operation(operationId = "deleteStudentCourse")
     @DeleteMapping("/{courseId}/{studentId}")
     public void delete(
         @PathVariable UUID courseId,
