@@ -1,13 +1,19 @@
 package cloudflight.integra.backend.studentexam.model;
 
+import jakarta.persistence.*;
+
 import java.util.UUID;
 
+@Entity
 public class StudentExam {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private UUID studentId;
     private UUID examId;
     private String sessionGrade;
     private String resitGrade;
+    @Enumerated(EnumType.STRING)
     private GradeStatus gradeStatus;
 
    public StudentExam(){

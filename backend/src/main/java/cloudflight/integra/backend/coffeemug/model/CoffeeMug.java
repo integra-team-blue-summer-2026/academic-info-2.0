@@ -1,13 +1,19 @@
 package cloudflight.integra.backend.coffeemug.model;
 
+import jakarta.persistence.*;
+
 import cloudflight.integra.backend.coffee.model.Coffee;
 
+@Entity
 public class CoffeeMug {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String color;
     private int capacityMl;
     private boolean clean;
     // TODO: replace with @ManyToOne when JPA is introduced
+    @ManyToOne
     private Coffee coffee;
 
     public CoffeeMug(Long id, String color, int capacityMl, boolean clean, Coffee coffee) {

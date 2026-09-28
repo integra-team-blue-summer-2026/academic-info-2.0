@@ -1,16 +1,22 @@
 package cloudflight.integra.backend.thesis.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity
 public class Thesis {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private UUID studentId;
 
     private String fileName;
     private String filePath;
 
+    @Enumerated(EnumType.STRING)
     private ThesisStatus status;
     private String rejectionMessage;
 

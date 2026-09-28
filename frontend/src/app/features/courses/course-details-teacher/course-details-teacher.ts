@@ -379,8 +379,8 @@ export class CourseDetailsTeacher implements OnInit {
 
     const exam: ExamDto = {
       courseId,
-      examType: this.examType.trim(),
-      examDate: this.examDate,
+      examType: this.examType.trim() as ExamDto.ExamTypeEnum,
+      primaryDate: this.examDate,
       room: this.examRoom.trim()
     };
 

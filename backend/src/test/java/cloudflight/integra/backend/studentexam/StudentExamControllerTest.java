@@ -24,10 +24,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(StudentExamController.class)
+@org.springframework.context.annotation.Import(cloudflight.integra.backend.auth.SecurityConfig.class)
+@org.springframework.security.test.context.support.WithMockUser
 class StudentExamControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @org.springframework.test.context.bean.override.mockito.MockitoBean
+    private cloudflight.integra.backend.auth.JwtService jwtService;
+
+    @org.springframework.test.context.bean.override.mockito.MockitoBean
+    private cloudflight.integra.backend.auth.AppUserDetailsService appUserDetailsService;
 
     @MockitoBean
     private StudentExamService studentExamService;
@@ -215,7 +223,7 @@ class StudentExamControllerTest {
         Exam exam = new Exam();
         exam.setId(examId);
         exam.setCourseId(courseId);
-        exam.setExamDate("2026-01-15");
+        exam.setPrimaryDate(java.time.LocalDateTime.parse("2026-01-15T10:00:00"));
 
         StudentExam se1 = new StudentExam(UUID.randomUUID(), UUID.randomUUID(), examId, "8", null, GradeStatus.PASSED);
         StudentExam se2 = new StudentExam(UUID.randomUUID(), UUID.randomUUID(), examId, "4", "6", GradeStatus.PASSED);

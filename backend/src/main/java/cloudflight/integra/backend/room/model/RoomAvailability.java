@@ -1,11 +1,16 @@
 package cloudflight.integra.backend.room.model;
 
+import jakarta.persistence.*;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
 
+@Entity
 public class RoomAvailability {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private UUID roomId;
     private DayOfWeek dayOfWeek;

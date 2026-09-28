@@ -1,11 +1,16 @@
 package cloudflight.integra.backend.teacher.availability.model;
 
+import jakarta.persistence.*;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
 
+@Entity
 public class TeacherAvailability {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private UUID teacherId;
     private DayOfWeek dayOfWeek;

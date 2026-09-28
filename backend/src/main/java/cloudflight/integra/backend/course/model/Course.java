@@ -1,9 +1,14 @@
 package cloudflight.integra.backend.course.model;
 
+import jakarta.persistence.*;
+
 import java.util.UUID;
 
+@Entity
 public class Course {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private UUID teacherId;
     private String courseName;

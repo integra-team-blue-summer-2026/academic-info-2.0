@@ -1,11 +1,16 @@
 package cloudflight.integra.backend.finalgrade.model;
 
+import jakarta.persistence.*;
+
 import cloudflight.integra.backend.course.model.Course;
 import cloudflight.integra.backend.student.model.Student;
 
 import java.util.UUID;
 
+@Entity
 public class FinalGrade {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private UUID courseId;
     private UUID studentId;

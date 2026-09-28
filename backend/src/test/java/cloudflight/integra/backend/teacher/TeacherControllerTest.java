@@ -21,10 +21,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.Mockito.verify;
 
 @WebMvcTest(TeacherController.class)
+@org.springframework.context.annotation.Import(cloudflight.integra.backend.auth.SecurityConfig.class)
+@org.springframework.security.test.context.support.WithMockUser
 class TeacherControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @org.springframework.test.context.bean.override.mockito.MockitoBean
+    private cloudflight.integra.backend.auth.JwtService jwtService;
+
+    @org.springframework.test.context.bean.override.mockito.MockitoBean
+    private cloudflight.integra.backend.auth.AppUserDetailsService appUserDetailsService;
 
     @MockitoBean
     private TeacherService service;

@@ -63,7 +63,9 @@ public class TeacherAvailabilityService {
     }
 
     public boolean delete(UUID id) {
-        return repository.deleteById(id);
+        if (!repository.existsById(id)) return false;
+        repository.deleteById(id);
+        return true;
     }
 
     private void validateAvailability(

@@ -6,11 +6,7 @@ import { StudentFinalGradesComponent } from './features/student-final-grades/stu
 import {TeacherFinalGrades} from './features/teacher-final-grades/teacher-final-grades';
 import { StudentOverview } from './features/overviews/student-overview/student-overview';
 import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
-import {TeacherExamsComponent} from './features/exams-teachers/exams-teachers';
-import { FinalGradesComponent } from './features/final-grades/final-grades';
 import {Exams} from './features/exams/exams';
-import { StudentOverview } from './features/overviews/student-overview/student-overview';
-import { TeacherOverview } from './features/overviews/teacher-overview/teacher-overview';
 import { StudentThesis } from './features/student-thesis/student-thesis';
 
 export const routes: Routes = [
@@ -63,10 +59,6 @@ export const routes: Routes = [
   {
     path: 'teacher/courses',
     component: TeacherOverview,
-  },
-  {
-    path: 'teacher/exams',
-    component: TeacherExamsComponent
   },
   {
     path: 'student/thesis',
