@@ -48,12 +48,12 @@ export const routes: Routes = [
     component: CourseDetails,
   },
   {
-    path: 'student/grades',
-    component: StudentFinalGradesComponent
+    path: 'my-grades',
+    component: StudentFinalGradesComponent,
   },
   {
-    path: 'teacher/grades',
-    component: TeacherFinalGrades
+    path: 'final-grades',
+    component: TeacherFinalGrades,
   },
   {
     path: 'student/courses',
@@ -80,5 +80,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/room-availability/room-availability')
         .then(m => m.RoomAvailability),
+  },
+  {
+    path: 'graduation-theses',
+    loadComponent: () =>
+      import('./features/graduation-theses/graduation-theses')
+        .then(m => m.GraduationTheses),
   },
 ];
